@@ -28,8 +28,8 @@ namespace graphics2
     [Serializable]
     public struct point
     {
-        public float x;
-        public float y;
+        public double x;
+        public double y;
 
         public point(float X, float Y)
         {
@@ -41,8 +41,8 @@ namespace graphics2
     [Serializable]
     public struct centerPoint
     {
-        public float x;
-        public float y;
+        public double x;
+        public double y;
 
         public centerPoint(float X, float Y)
         {
@@ -68,7 +68,7 @@ namespace graphics2
     public struct circle
     {
         public centerPoint center;
-        public float radius;
+        public double radius;
 
         public circle(centerPoint c, float rad)
         {

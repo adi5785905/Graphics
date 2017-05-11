@@ -19,6 +19,9 @@ namespace graphics2
         public PictureJson background;
         Brush aBrush = (Brush)Brushes.Black;
         Graphics g;
+        int action = 0; // 1= move
+        double PI = 3.14159265;
+
         public double baziaFactor = 0.0001;
 
         public Form1()
@@ -27,9 +30,46 @@ namespace graphics2
             g = panel1.CreateGraphics();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        public void draw()
         {
+            clear();
+            printPicture(background);
+            printPicture(picture);
+        }
 
+
+
+        public void OpenFile()
+        {
+            try
+            {   // Open the text file using a stream reader.
+                using (StreamReader sr = new StreamReader("JsonFile.txt"))
+                {
+                    // Read the stream to a string, and write the string to the console.
+                    String line = sr.ReadToEnd();
+                    picture = parseJson(line);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The picture file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+
+            //try
+            //{   // Open the text file using a stream reader.
+            //    using (StreamReader sr = new StreamReader("BackgroundFile.txt"))
+            //    {
+            //        // Read the stream to a string, and write the string to the console.
+            //        String line = sr.ReadToEnd();
+            //        picture = parseJson(line);
+            //    }
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine("The background file could not be read:");
+            //    Console.WriteLine(e.Message);
+            //}
         }
 
         public JObject createPictureJson(PictureJson json)
@@ -64,36 +104,75 @@ namespace graphics2
             PictureJson userObject = serializer.Deserialize<PictureJson>(root["user"].CreateReader());
             return userObject;
         }
-
-        public void printPicture()
+        
+        public void printPicture(PictureJson pic)
         {
-            foreach(line l in picture.Lines)
+            foreach(line l in pic.Lines)
             {
                 drawLine((int)l.first.x, (int)l.first.y, (int)l.second.x, (int)l.second.y);
             }
-            foreach(circle c in picture.Circles)
+            foreach(circle c in pic.Circles)
             {
                 MyCircle((int)c.center.x, (int)c.center.y, (int)c.radius);
             }
-            foreach(curve c in picture.Curves)
+            foreach(curve c in pic.Curves)
             {
                 DrawBazia(c);
             }
-            foreach (poligon p in picture.Poligon)
+            foreach (poligon p in pic.Poligon)
             {
                 myPoli(p);
             }
         }
 
-        public void move(float x1 , float y1, float x2, float y2)
+        public void move(double x1 , double y1, double x2, double y2)
         {
-            float calculateX =x2 - x1;
-            float calculateY = y2 - y1;
+            double calculateX = x2 - x1;
+            double calculateY = y2 - y1;
             for(int i = 0; i < picture.Points.Length; ++i)
             {
                 picture.Points[i].x += calculateX;
                 picture.Points[i].y += calculateY;
             }
+            draw();
+        }
+
+        public PictureJson moveToZero(PictureJson tempPicture)
+        {
+            double calculateX = 0 - tempPicture.Points[0].x;
+            double calculateY = 0 - tempPicture.Points[0].y;
+            for (int i = 0; i < tempPicture.Points.Length; ++i)
+            {
+                tempPicture.Points[i].x += calculateX;
+                tempPicture.Points[i].y += calculateY;
+            }
+            return tempPicture;
+        }
+
+        public PictureJson moveBack(PictureJson tempPicture)
+        {
+            double calculateX = picture.Points[0].x - tempPicture.Points[0].x;
+            double calculateY = picture.Points[0].y - tempPicture.Points[0].y;
+            for (int i = 0; i < tempPicture.Points.Length; ++i)
+            {
+                tempPicture.Points[i].x += calculateX;
+                tempPicture.Points[i].y += calculateY;
+            }
+            return tempPicture;
+        }
+
+        public void rotate(int x, int y, int choosenX, int choosenY)
+        {
+            PictureJson tranform = picture;
+            tranform = moveToZero(tranform);
+            double angleInDegrees = Math.Atan2(y, x) * 180 / PI;
+            for(int i = 0; i < tranform.Points.Length; ++i)
+            {
+                tranform.Points[i].x = (tranform.Points[i].x * Math.Cos(angleInDegrees)) - (tranform.Points[i].y * Math.Sin(angleInDegrees));
+                tranform.Points[i].y = (tranform.Points[i].y * Math.Cos(angleInDegrees)) + (tranform.Points[i].x * Math.Sin(angleInDegrees));
+            }
+            tranform = moveBack(tranform);
+            draw();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -101,9 +180,41 @@ namespace graphics2
 
         }
 
+        private void button1_MouseDown(object sender,System.Windows.Forms.MouseEventArgs e)
+        {
+            if(action == 1)
+                 move(picture.Points[0].x, picture.Points[0].y, e.X, e.Y);
+        }
 
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.AutoCheck) action = 1;
+        }
 
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.AutoCheck) action = 2;
+        }
 
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.AutoCheck) action = 3;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton4.AutoCheck) action = 4;
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton5.AutoCheck) action = 5;
+        }
+
+        private void radioButton6_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton6.AutoCheck) action = 6;
+        }
 
 
         public double getRadius(int x1, int y1, int x2, int y2)
@@ -192,7 +303,7 @@ namespace graphics2
             int px = (int)p.radius.x;
             int py = (int)p.radius.y;
             int n = p.polis;
-            double PI = 3.14159265;
+            
             int lastx, lasty;
             double r = getRadius(xc, yc, px, py);
             double a = Math.Atan2(py - yc, px - xc);
@@ -245,6 +356,11 @@ namespace graphics2
             panel1.BackgroundImage.Dispose();
             //draw();
             this.Refresh();
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+           
         }
     }
 }
