@@ -9,24 +9,26 @@ namespace graphics2
     [Serializable]
     public class PictureJson
     {
-        public point[] Points { set; get; }
+        public point[] Points;
         public line[] Lines;
         public circle[] Circles;
         public curve[] Curves;
+        public poligon[] Poligon;
 
-        public PictureJson(int numPoints, int numLines, int numCircles, int numCurves)
+        public PictureJson(int numPoints, int numLines, int numCircles, int numCurves, int numPoli)
         {
             Points = new point[numPoints];
             Lines = new line[numLines];
             Circles = new circle[numCircles];
             Curves = new curve[numCurves];
+            Poligon = new poligon[numPoli];
         }
     }
 
     [Serializable]
     public struct point
     {
-        public float x { set; get; }
+        public float x;
         public float y;
 
         public point(float X, float Y)
@@ -72,6 +74,21 @@ namespace graphics2
         {
             center = c;
             radius = rad;
+        }
+    }
+
+    [Serializable]
+    public struct poligon
+    {
+        public centerPoint center;
+        public point radius;
+        public int polis;
+
+        public poligon(centerPoint c, point rad, int number)
+        {
+            center = c;
+            radius = rad;
+            polis = number;
         }
     }
 
