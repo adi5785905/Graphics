@@ -7,18 +7,26 @@ using System.Threading.Tasks;
 namespace graphics2
 {
     [Serializable]
-    class PictureJson
+    public class PictureJson
     {
-        public List<point> Points;
-        public List<line> Lines;
-        public List<circle> Circles;
-        public List<curve> Curves;
+        public point[] Points { set; get; }
+        public line[] Lines;
+        public circle[] Circles;
+        public curve[] Curves;
+
+        public PictureJson(int numPoints, int numLines, int numCircles, int numCurves)
+        {
+            Points = new point[numPoints];
+            Lines = new line[numLines];
+            Circles = new circle[numCircles];
+            Curves = new curve[numCurves];
+        }
     }
 
     [Serializable]
     public struct point
     {
-        public float x;
+        public float x { set; get; }
         public float y;
 
         public point(float X, float Y)
