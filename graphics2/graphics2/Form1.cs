@@ -30,9 +30,10 @@ namespace graphics2
 
         }
 
-        public void createPictureJson(PictureJson json)
+        public JObject createPictureJson(PictureJson json)
         {
             JObject jsonObject = (JObject)JToken.FromObject(json);
+            return jsonObject;
         }
 
         public void saveJsonFile(JObject json, string fileName)
@@ -54,9 +55,12 @@ namespace graphics2
 
         }
 
-        public PictureJson parseJson()
+        public PictureJson parseJson(string jsonString)
         {
-            
+            var root = JObject.Parse(jsonString);
+            var serializer = new JsonSerializer();
+            PictureJson userObject = serializer.Deserialize<PictureJson>(root["user"].CreateReader());
+            return userObject;
         }
 
         public void printPicture()
