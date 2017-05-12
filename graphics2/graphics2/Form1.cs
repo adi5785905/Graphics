@@ -86,7 +86,8 @@ namespace graphics2
         public void draw()
         {
             clear();
-           // printPicture(background);
+            // printPicture(background);
+            drawFrame();
             printPicture(picture);
         }
 
@@ -167,7 +168,7 @@ namespace graphics2
             if (pic.Lines != null)
                 foreach(line l in pic.Lines)
             {
-                drawLine((int)l.first.x, (int)l.first.y, (int)l.second.x, (int)l.second.y);
+                drawLine(l.first,l.second);
             }
             if (pic.Circles != null)
                 foreach (circle c in pic.Circles)
@@ -188,8 +189,8 @@ namespace graphics2
 
         public void move(double x1 , double y1, double x2, double y2)
         {
-            double calculateX = x1 - x2;
-            double calculateY = y1 - y2;
+            double calculateX = x2 - x1;
+            double calculateY = y2 - y1;
             for(int i = 0; i < picture.Points.Length; ++i)
             {
                 picture.Points[i].x += calculateX;
@@ -260,9 +261,21 @@ namespace graphics2
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
 
-              //  picture.Points[0].x = e.X + picture.Points[0].x - MouseDownLocation.X;
-               // picture.Points[0].y = e.Y + picture.Points[0].y - MouseDownLocation.Y;
-                move(picture.Points[0].x, picture.Points[0].y, e.X + picture.Points[0].x - MouseDownLocation.X, e.Y + picture.Points[0].y - MouseDownLocation.Y);
+                //double addToX = e.X + picture.Lines[0].first.x - MouseDownLocation.X;
+                //double addToY = e.Y + picture.Lines[0].first.y - MouseDownLocation.Y;
+                double addToX = MouseDownLocation.X - picture.Lines[0].first.x;
+                double addToY = MouseDownLocation.Y - picture.Lines[0].first.y;
+                //move(picture.Points[0].x, picture.Points[0].y, e.X + picture.Points[0].x - MouseDownLocation.X, e.Y + picture.Points[0].y - MouseDownLocation.Y);
+
+                for (int i = 0; i < picture.Lines.Length; ++i)
+                {
+
+                    picture.Lines[i].first.x += addToX;
+                    picture.Lines[i].first.y += addToY;
+                    picture.Lines[i].second.x += addToX;
+                    picture.Lines[i].second.y += addToY;
+                }
+                draw();
             }
         }
 
@@ -314,14 +327,19 @@ namespace graphics2
             return delta / range;
         }
 
-        public void drawLine(int x1, int y1, int x2, int y2)
+        public void drawLine(point one, point two)
         {
+            double x1,y1,  x2, y2;
+            x1 = one.x;
+            y1 = one.y;
+            x2 = two.x;
+            y2 = two.y;
             if (x1 == x2 && y1 == y2)
             {
-                g.FillRectangle(aBrush, x1, y1, 1, 1);
+                g.FillRectangle(aBrush, (int)x1, (int)y1, 1, 1);
                 return;
             }
-            g.FillRectangle(aBrush, x1, y1, 1, 1);
+            g.FillRectangle(aBrush, (int)x1, (int)y1, 1, 1);
             double newX = x2;
             double newY = y2;
 
@@ -394,7 +412,7 @@ namespace graphics2
                 a = a + PI * 2 / n;
                 px = (int)Math.Round(xc + r * Math.Cos(a));
                 py = (int)Math.Round(yc + r * Math.Sin(a));
-                drawLine(lastx, lasty, px, py);
+                drawLine(new point(lastx, lasty), new point( px, py));
             }
         }
 
@@ -426,7 +444,7 @@ namespace graphics2
                 px2 = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].X + 3 * t * (1 - t) * (1 - t) * bazia[1].X + 3 * t * t * (1 - t) * bazia[2].X + t * t * t * bazia[3].X);
                 py2 = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].Y + 3 * t * (1 - t) * (1 - t) * bazia[1].Y + 3 * t * t * (1 - t) * bazia[2].Y + t * t * t * bazia[3].Y);
 
-                drawLine(px, py, px2, py2);
+                drawLine(new point(px, py),new point(px2, py2));
             }
             this.Refresh();
         }
