@@ -21,7 +21,6 @@ namespace graphics2
         Graphics g;
         int action = 0; // 1= move
         double PI = 3.14159265;
-
         public double baziaFactor = 0.0001;
 
         public Form1()
@@ -33,11 +32,9 @@ namespace graphics2
         public void draw()
         {
             clear();
-            printPicture(background);
+           // printPicture(background);
             printPicture(picture);
         }
-
-
 
         public void OpenFile()
         {
@@ -47,7 +44,7 @@ namespace graphics2
                 {
                     // Read the stream to a string, and write the string to the console.
                     String line = sr.ReadToEnd();
-                    picture = parseJson(line);
+                    picture = parseJson(line,"PictureJson");
                 }
             }
             catch (Exception e)
@@ -62,7 +59,7 @@ namespace graphics2
             //    {
             //        // Read the stream to a string, and write the string to the console.
             //        String line = sr.ReadToEnd();
-            //        picture = parseJson(line);
+            //        picture = parseJson(line,"PictureJson");
             //    }
             //}
             //catch (Exception e)
@@ -84,7 +81,7 @@ namespace graphics2
 
             //write string to file
             //System.IO.File.WriteAllText(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\" + fileName, jsonFile);
-            using (StreamWriter file = File.CreateText((Environment.SpecialFolder.Desktop) + @"\" + fileName + ".json"))
+            using (StreamWriter file = File.CreateText(@"\" + fileName + ".json"))
             using (JsonTextWriter writer = new JsonTextWriter(file))
             {
                 json.WriteTo(writer);
@@ -92,16 +89,11 @@ namespace graphics2
             }
         }
 
-        private void createBackPictureJson()
-        {
-
-        }
-
-        public PictureJson parseJson(string jsonString)
+        public PictureJson parseJson(string jsonString, string name)
         {
             var root = JObject.Parse(jsonString);
             var serializer = new JsonSerializer();
-            PictureJson userObject = serializer.Deserialize<PictureJson>(root["user"].CreateReader());
+            PictureJson userObject = serializer.Deserialize<PictureJson>(root[name].CreateReader());
             return userObject;
         }
         
@@ -171,7 +163,7 @@ namespace graphics2
                 tranform.Points[i].x = (tranform.Points[i].x * Math.Cos(angleInDegrees)) - (tranform.Points[i].y * Math.Sin(angleInDegrees));
                 tranform.Points[i].y = (tranform.Points[i].y * Math.Cos(angleInDegrees)) + (tranform.Points[i].x * Math.Sin(angleInDegrees));
             }
-            tranform = moveBack(tranform);
+            picture = moveBack(tranform);
             draw();
         }
 
@@ -338,7 +330,7 @@ namespace graphics2
             //textBox3.Clear();
             //textBox2.Clear();
 
-            for (t = 0.0; t <= 1.0; t += 0.001)
+            for (t = 0.0; t <= 1.0; t += baziaFactor)
             {
                 px = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].X + 3 * t * (1 - t) * (1 - t) * bazia[1].X + 3 * t * t * (1 - t) * bazia[2].X + t * t * t * bazia[3].X);
                 py = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].Y + 3 * t * (1 - t) * (1 - t) * bazia[1].Y + 3 * t * t * (1 - t) * bazia[2].Y + t * t * t * bazia[3].Y);
