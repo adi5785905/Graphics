@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace graphics2
 {
@@ -19,6 +20,12 @@ namespace graphics2
         public PictureJson background;
         Brush aBrush = (Brush)Brushes.Black;
         Graphics g;
+        Bitmap myBitmap;
+        Color color = Color.Black;
+        int frameSizex;
+        int framSizey;
+
+        Brush frameBrush = (Brush)Brushes.Black;
         int action = 0; // 1= move
         double PI = 3.14159265;
         public double baziaFactor = 0.0001;
@@ -26,9 +33,56 @@ namespace graphics2
         public Form1()
         {
             InitializeComponent();
-            g = panel1.CreateGraphics();
         }
 
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            drawFrame();
+            createTemp();
+            
+
+            draw();
+            //comboBox1.Items.AddRange(new object[] {"Black",
+                        //"Green",
+                        //"Red",
+                        //"Blue",
+                        //"Yellow"});
+        }
+
+        private void drawFrame()
+        {
+            //setup and draw frame
+            myBitmap = new Bitmap(panel1.Width, panel1.Height);
+            frameSizex = panel1.Width - 1;
+            framSizey = panel1.Height - 1;
+            panel1.BackgroundImage = (Image)myBitmap;
+            panel1.BackgroundImageLayout = ImageLayout.None;
+
+            g = Graphics.FromImage((Image)myBitmap);
+
+            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+
+            int i = 1;
+            int j = 1;
+            g.FillRectangle(frameBrush, i, j, 1, 1);
+            for (i = 1; i < frameSizex; ++i)
+            {
+                g.FillRectangle(frameBrush, i, j, 1, 1);
+            }
+            for (j = framSizey, i = 1; i < frameSizex; ++i)
+            {
+                g.FillRectangle(frameBrush, i, j, 1, 1);
+            }
+            for (i = 1, j = 1; j < framSizey; ++j)
+            {
+                g.FillRectangle(frameBrush, i, j, 1, 1);
+            }
+            for (i = frameSizex, j = 1; j < framSizey; ++j)
+            {
+                g.FillRectangle(frameBrush, i, j, 1, 1);
+            }
+        }
         public void draw()
         {
             clear();
@@ -89,6 +143,17 @@ namespace graphics2
             }
         }
 
+        public void createTemp()
+        {
+            picture = new PictureJson(4, 2, 0, 0, 0);
+            picture.Points[0] = new point(50, 50);
+            picture.Points[1] = new point(70, 50);
+            picture.Points[2] = new point(80, 90);
+            picture.Points[3] = new point(30, 90);
+            picture.Lines[0] = new line(picture.Points[0], picture.Points[1]);
+            picture.Lines[0] = new line(picture.Points[2], picture.Points[3]);
+        }
+
         public PictureJson parseJson(string jsonString, string name)
         {
             var root = JObject.Parse(jsonString);
@@ -99,19 +164,23 @@ namespace graphics2
         
         public void printPicture(PictureJson pic)
         {
-            foreach(line l in pic.Lines)
+            if (pic.Lines != null)
+                foreach(line l in pic.Lines)
             {
                 drawLine((int)l.first.x, (int)l.first.y, (int)l.second.x, (int)l.second.y);
             }
-            foreach(circle c in pic.Circles)
+            if (pic.Circles != null)
+                foreach (circle c in pic.Circles)
             {
                 MyCircle((int)c.center.x, (int)c.center.y, (int)c.radius);
             }
-            foreach(curve c in pic.Curves)
+            if (pic.Curves != null)
+                foreach (curve c in pic.Curves)
             {
                 DrawBazia(c);
             }
-            foreach (poligon p in pic.Poligon)
+            if (pic.Poligon != null)
+                foreach (poligon p in pic.Poligon)
             {
                 myPoli(p);
             }
@@ -346,7 +415,7 @@ namespace graphics2
         public void clear()
         {
             panel1.BackgroundImage.Dispose();
-            //draw();
+            drawFrame();
             this.Refresh();
         }
 
