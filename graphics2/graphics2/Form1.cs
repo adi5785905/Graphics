@@ -24,9 +24,9 @@ namespace graphics2
         Color color = Color.Black;
         int frameSizex;
         int framSizey;
-
+        private Point MouseDownLocation;
         Brush frameBrush = (Brush)Brushes.Black;
-        int action = 0; // 1= move
+        int action = 1; // 1= move
         double PI = 3.14159265;
         public double baziaFactor = 0.0001;
 
@@ -149,9 +149,9 @@ namespace graphics2
             picture.Points[0] = new point(50, 50);
             picture.Points[1] = new point(70, 50);
             picture.Points[2] = new point(80, 90);
-            picture.Points[3] = new point(30, 90);
+            picture.Points[3] = new point(30, 70);
             picture.Lines[0] = new line(picture.Points[0], picture.Points[1]);
-            picture.Lines[0] = new line(picture.Points[2], picture.Points[3]);
+            picture.Lines[1] = new line(picture.Points[2], picture.Points[3]);
         }
 
         public PictureJson parseJson(string jsonString, string name)
@@ -188,8 +188,8 @@ namespace graphics2
 
         public void move(double x1 , double y1, double x2, double y2)
         {
-            double calculateX = x2 - x1;
-            double calculateY = y2 - y1;
+            double calculateX = x1 - x2;
+            double calculateY = y1 - y2;
             for(int i = 0; i < picture.Points.Length; ++i)
             {
                 picture.Points[i].x += calculateX;
@@ -241,10 +241,29 @@ namespace graphics2
 
         }
 
-        private void button1_MouseDown(object sender,System.Windows.Forms.MouseEventArgs e)
+        //private void button1_MouseDown(object sender,System.Windows.Forms.MouseEventArgs e)
+        //{
+        //    if(action == 1)
+        //         move(picture.Points[0].x, picture.Points[0].y, e.X, e.Y);
+        //}
+
+        private void panel1_MouseDown_1(object sender, MouseEventArgs e)
         {
-            if(action == 1)
-                 move(picture.Points[0].x, picture.Points[0].y, e.X, e.Y);
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+                MouseDownLocation = e.Location;
+            }
+        }
+
+        private void panel1_MouseMove_1(object sender, MouseEventArgs e)
+        {
+            if (e.Button == System.Windows.Forms.MouseButtons.Left)
+            {
+
+              //  picture.Points[0].x = e.X + picture.Points[0].x - MouseDownLocation.X;
+               // picture.Points[0].y = e.Y + picture.Points[0].y - MouseDownLocation.Y;
+                move(picture.Points[0].x, picture.Points[0].y, e.X + picture.Points[0].x - MouseDownLocation.X, e.Y + picture.Points[0].y - MouseDownLocation.Y);
+            }
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -423,5 +442,7 @@ namespace graphics2
         {
            
         }
+
+
     }
 }
