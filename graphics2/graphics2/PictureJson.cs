@@ -9,7 +9,7 @@ namespace graphics2
     [Serializable]
     public class PictureJson
     {
-        public point[] Points;
+       // public point[] Points;
         public line[] Lines;
         public circle[] Circles;
         public curve[] Curves;
@@ -17,11 +17,20 @@ namespace graphics2
 
         public PictureJson(int numPoints, int numLines, int numCircles, int numCurves, int numPoli)
         {
-            Points = new point[numPoints];
+            //Points = new point[numPoints];
             Lines = new line[numLines];
             Circles = new circle[numCircles];
             Curves = new curve[numCurves];
             Poligon = new poligon[numPoli];
+        }
+
+        public PictureJson(PictureJson other)
+        {
+           // Points = other.Points;
+            Lines = other.Lines;
+            Circles = other.Circles;
+            Curves = other.Curves;
+            Poligon = other.Poligon;
         }
     }
 

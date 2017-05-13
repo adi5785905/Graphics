@@ -147,12 +147,12 @@ namespace graphics2
         public void createTemp()
         {
             picture = new PictureJson(4, 2, 0, 0, 0);
-            picture.Points[0] = new point(50, 50);
-            picture.Points[1] = new point(70, 50);
-            picture.Points[2] = new point(80, 90);
-            picture.Points[3] = new point(30, 70);
-            picture.Lines[0] = new line(picture.Points[0], picture.Points[1]);
-            picture.Lines[1] = new line(picture.Points[2], picture.Points[3]);
+            //picture.Points[0] = new point(50, 50);
+            //picture.Points[1] = new point(70, 50);
+            //picture.Points[2] = new point(80, 90);
+            //picture.Points[3] = new point(30, 70);
+            picture.Lines[0] = new line(new point(50, 50), new point(70, 50));
+            picture.Lines[1] = new line(new point(80, 90), new point(30, 70));
         }
 
         public PictureJson parseJson(string jsonString, string name)
@@ -191,11 +191,11 @@ namespace graphics2
         {
             double calculateX = x2 - x1;
             double calculateY = y2 - y1;
-            for(int i = 0; i < picture.Points.Length; ++i)
-            {
-                picture.Points[i].x += calculateX;
-                picture.Points[i].y += calculateY;
-            }
+            //for(int i = 0; i < picture.Points.Length; ++i)
+            //{
+            //    picture.Points[i].x += calculateX;
+            //    picture.Points[i].y += calculateY;
+            //}
             if (picture.Lines != null)
                 for (int i = 0; i < picture.Lines.Length; ++i)
                 {
@@ -236,38 +236,144 @@ namespace graphics2
 
         public PictureJson moveToZero(PictureJson tempPicture)
         {
-            double calculateX = 0 - tempPicture.Points[0].x;
-            double calculateY = 0 - tempPicture.Points[0].y;
-            for (int i = 0; i < tempPicture.Points.Length; ++i)
-            {
-                tempPicture.Points[i].x += calculateX;
-                tempPicture.Points[i].y += calculateY;
-            }
+            double calculateX = 0 - tempPicture.Lines[0].first.x;
+            double calculateY = 0 - tempPicture.Lines[0].first.y;
+            //for (int i = 0; i < tempPicture.Points.Length; ++i)
+            //{
+            //    tempPicture.Points[i].x += calculateX;
+            //    tempPicture.Points[i].y += calculateY;
+            //}
+            if (tempPicture.Lines != null)
+                for (int i = 0; i < tempPicture.Lines.Length; ++i)
+                {
+
+                    tempPicture.Lines[i].first.x += calculateX;
+                    tempPicture.Lines[i].first.y += calculateY;
+                    tempPicture.Lines[i].second.x += calculateX;
+                    tempPicture.Lines[i].second.y += calculateY;
+                }
+            if (tempPicture.Circles != null)
+                for (int i = 0; i < tempPicture.Circles.Length; ++i)
+                {
+                    tempPicture.Circles[i].center.x += calculateX;
+                    tempPicture.Circles[i].center.y += calculateY;
+                }
+            if (tempPicture.Curves != null)
+                for (int i = 0; i < tempPicture.Curves.Length; ++i)
+                {
+                    tempPicture.Curves[i].first.x += calculateX;
+                    tempPicture.Curves[i].first.y += calculateY;
+                    tempPicture.Curves[i].second.x += calculateX;
+                    tempPicture.Curves[i].second.y += calculateY;
+                    tempPicture.Curves[i].thired.x += calculateX;
+                    tempPicture.Curves[i].thired.y += calculateY;
+                    tempPicture.Curves[i].fourth.x += calculateX;
+                    tempPicture.Curves[i].fourth.y += calculateY;
+                }
+            if (tempPicture.Poligon != null)
+                for (int i = 0; i < tempPicture.Poligon.Length; ++i)
+                {
+                    tempPicture.Poligon[i].center.x += calculateX;
+                    tempPicture.Poligon[i].center.y += calculateY;
+                    tempPicture.Poligon[i].radius.x += calculateX;
+                    tempPicture.Poligon[i].radius.y += calculateY;
+                }
             return tempPicture;
         }
 
         public PictureJson moveBack(PictureJson tempPicture)
         {
-            double calculateX = picture.Points[0].x - tempPicture.Points[0].x;
-            double calculateY = picture.Points[0].y - tempPicture.Points[0].y;
-            for (int i = 0; i < tempPicture.Points.Length; ++i)
-            {
-                tempPicture.Points[i].x += calculateX;
-                tempPicture.Points[i].y += calculateY;
-            }
+            double calculateX = picture.Lines[0].first.x - tempPicture.Lines[0].first.x;
+            double calculateY = picture.Lines[0].first.y - tempPicture.Lines[0].first.y;
+            //for (int i = 0; i < tempPicture.Points.Length; ++i)
+            //{
+            //    tempPicture.Points[i].x += calculateX;
+            //    tempPicture.Points[i].y += calculateY;
+            //}
+            if (tempPicture.Lines != null)
+                for (int i = 0; i < tempPicture.Lines.Length; ++i)
+                {
+
+                    tempPicture.Lines[i].first.x += calculateX;
+                    tempPicture.Lines[i].first.y += calculateY;
+                    tempPicture.Lines[i].second.x += calculateX;
+                    tempPicture.Lines[i].second.y += calculateY;
+                }
+            if (tempPicture.Circles != null)
+                for (int i = 0; i < tempPicture.Circles.Length; ++i)
+                {
+                    tempPicture.Circles[i].center.x += calculateX;
+                    tempPicture.Circles[i].center.y += calculateY;
+                }
+            if (tempPicture.Curves != null)
+                for (int i = 0; i < tempPicture.Curves.Length; ++i)
+                {
+                    tempPicture.Curves[i].first.x += calculateX;
+                    tempPicture.Curves[i].first.y += calculateY;
+                    tempPicture.Curves[i].second.x += calculateX;
+                    tempPicture.Curves[i].second.y += calculateY;
+                    tempPicture.Curves[i].thired.x += calculateX;
+                    tempPicture.Curves[i].thired.y += calculateY;
+                    tempPicture.Curves[i].fourth.x += calculateX;
+                    tempPicture.Curves[i].fourth.y += calculateY;
+                }
+            if (tempPicture.Poligon != null)
+                for (int i = 0; i < tempPicture.Poligon.Length; ++i)
+                {
+                    tempPicture.Poligon[i].center.x += calculateX;
+                    tempPicture.Poligon[i].center.y += calculateY;
+                    tempPicture.Poligon[i].radius.x += calculateX;
+                    tempPicture.Poligon[i].radius.y += calculateY;
+                }
             return tempPicture;
         }
 
         public void rotate(int x, int y, int choosenX, int choosenY)
         {
-            PictureJson tranform = picture;
+            PictureJson tranform = new PictureJson(picture);
             tranform = moveToZero(tranform);
             double angleInDegrees = Math.Atan2(y, x) * 180 / PI;
-            for(int i = 0; i < tranform.Points.Length; ++i)
-            {
-                tranform.Points[i].x = (tranform.Points[i].x * Math.Cos(angleInDegrees)) - (tranform.Points[i].y * Math.Sin(angleInDegrees));
-                tranform.Points[i].y = (tranform.Points[i].y * Math.Cos(angleInDegrees)) + (tranform.Points[i].x * Math.Sin(angleInDegrees));
-            }
+
+            //for (int i = 0; i < tranform.Points.Length; ++i)
+            //{
+            //    tranform.Points[i].x += (tranform.Points[i].x * Math.Cos(angleInDegrees)) - (tranform.Points[i].y * Math.Sin(angleInDegrees));
+            //    tranform.Points[i].y += (tranform.Points[i].y * Math.Cos(angleInDegrees)) + (tranform.Points[i].x * Math.Sin(angleInDegrees));
+            //}
+            if (tranform.Lines != null)
+                for (int i = 0; i < tranform.Lines.Length; ++i)
+                {
+
+                    tranform.Lines[i].first.x += (tranform.Lines[i].first.x * Math.Cos(angleInDegrees)) - (tranform.Lines[i].first.y * Math.Sin(angleInDegrees));
+                    tranform.Lines[i].first.y += (tranform.Lines[i].first.y * Math.Cos(angleInDegrees)) + (tranform.Lines[i].first.x * Math.Sin(angleInDegrees));
+                    tranform.Lines[i].second.x += (tranform.Lines[i].second.x * Math.Cos(angleInDegrees)) - (tranform.Lines[i].second.y * Math.Sin(angleInDegrees));
+                    tranform.Lines[i].second.y += (tranform.Lines[i].second.y * Math.Cos(angleInDegrees)) + (tranform.Lines[i].second.x * Math.Sin(angleInDegrees));
+                }
+            if (tranform.Circles != null)
+                for (int i = 0; i < tranform.Circles.Length; ++i)
+                {
+                    tranform.Circles[i].center.x += (tranform.Circles[i].center.x * Math.Cos(angleInDegrees)) - (tranform.Circles[i].center.y * Math.Sin(angleInDegrees));
+                    tranform.Circles[i].center.y += (tranform.Circles[i].center.y * Math.Cos(angleInDegrees)) + (tranform.Circles[i].center.x * Math.Sin(angleInDegrees));
+                }
+            if (tranform.Curves != null)
+                for (int i = 0; i < tranform.Curves.Length; ++i)
+                {
+                    tranform.Curves[i].first.x += (tranform.Curves[i].first.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].first.y * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].first.y += (tranform.Curves[i].first.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].first.x * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].second.x += (tranform.Curves[i].second.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].second.y * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].second.y += (tranform.Curves[i].second.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].second.x * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].thired.x += (tranform.Curves[i].thired.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].thired.y * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].thired.y += (tranform.Curves[i].thired.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].thired.x * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].fourth.x += (tranform.Curves[i].fourth.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].fourth.y * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].fourth.y += (tranform.Curves[i].fourth.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].fourth.x * Math.Sin(angleInDegrees));
+                }
+            if (tranform.Poligon != null)
+                for (int i = 0; i < tranform.Poligon.Length; ++i)
+                {
+                    tranform.Poligon[i].center.x += (tranform.Poligon[i].center.x * Math.Cos(angleInDegrees)) - (tranform.Poligon[i].center.y * Math.Sin(angleInDegrees));
+                    tranform.Poligon[i].center.y += (tranform.Poligon[i].center.y * Math.Cos(angleInDegrees)) + (tranform.Poligon[i].center.x * Math.Sin(angleInDegrees));
+                    tranform.Poligon[i].radius.x += (tranform.Poligon[i].radius.x * Math.Cos(angleInDegrees)) - (tranform.Poligon[i].radius.y * Math.Sin(angleInDegrees));
+                    tranform.Poligon[i].radius.y += (tranform.Poligon[i].radius.y * Math.Cos(angleInDegrees)) + (tranform.Poligon[i].radius.x * Math.Sin(angleInDegrees));
+                }
             picture = moveBack(tranform);
             draw();
         }
@@ -301,7 +407,9 @@ namespace graphics2
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 if(action == 1)
-                move(picture.Points[0].x, picture.Points[0].y, MouseDownLocation.X, MouseDownLocation.Y);
+                move(picture.Lines[0].first.x, picture.Lines[0].first.y, MouseDownLocation.X, MouseDownLocation.Y);
+                if (action == 2)
+                    rotate(e.Location.X, e.Location.Y, 0, 0);
             }
         }
 
