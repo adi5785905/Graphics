@@ -330,7 +330,8 @@ namespace graphics2
 
         public void rotate(int x, int y, int choosenX, int choosenY)
         {
-            PictureJson tranform = new PictureJson(picture);
+            PictureJson tranform = picture;
+            point refrence = picture.Lines[0].first;
             tranform = moveToZero(tranform);
             double angleInDegrees = Math.Atan2(y, x) * 180 / PI;
 
@@ -374,7 +375,8 @@ namespace graphics2
                     tranform.Poligon[i].radius.x += (tranform.Poligon[i].radius.x * Math.Cos(angleInDegrees)) - (tranform.Poligon[i].radius.y * Math.Sin(angleInDegrees));
                     tranform.Poligon[i].radius.y += (tranform.Poligon[i].radius.y * Math.Cos(angleInDegrees)) + (tranform.Poligon[i].radius.x * Math.Sin(angleInDegrees));
                 }
-            picture = moveBack(tranform);
+            // picture = moveBack(tranform);
+            move(picture.Lines[0].first.x, picture.Lines[0].first.y, refrence.x, refrence.y);
             draw();
         }
 

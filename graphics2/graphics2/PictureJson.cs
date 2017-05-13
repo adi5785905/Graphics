@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace graphics2
 {
     [Serializable]
-    public class PictureJson
+    public class PictureJson 
     {
        // public point[] Points;
         public line[] Lines;
