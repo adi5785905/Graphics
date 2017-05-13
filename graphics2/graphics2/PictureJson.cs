@@ -40,7 +40,7 @@ namespace graphics2
         public double x;
         public double y;
 
-        public point(float X, float Y)
+        public point(double X, double Y)
         {
             x = X;
             y = Y;

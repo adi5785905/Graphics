@@ -30,6 +30,7 @@ namespace graphics2
         double PI = 3.14159265;
         public double baziaFactor = 0.0001;
         bool pressed = false;
+        point centerPoint;
         public Form1()
         {
             InitializeComponent();
@@ -40,7 +41,7 @@ namespace graphics2
             base.OnLoad(e);
             drawFrame();
             createTemp();
-            
+            centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
 
             draw();
             //comboBox1.Items.AddRange(new object[] {"Black",
@@ -189,6 +190,8 @@ namespace graphics2
 
         public PictureJson addValueToPictureJson(PictureJson pic,double calculateX, double calculateY)
         {
+            centerPoint.x += calculateX;
+            centerPoint.y += calculateY;
             if (pic.Lines != null)
                 for (int i = 0; i < pic.Lines.Length; ++i)
                 {
@@ -237,8 +240,8 @@ namespace graphics2
 
         public PictureJson moveToZero(PictureJson tempPicture)
         {
-            double calculateX = 0 - tempPicture.Lines[0].first.x;
-            double calculateY = 0 - tempPicture.Lines[0].first.y;
+            double calculateX = 0 - centerPoint.x;
+            double calculateY = 0 - centerPoint.y;
             //for (int i = 0; i < tempPicture.Points.Length; ++i)
             //{
             //    tempPicture.Points[i].x += calculateX;
@@ -262,25 +265,25 @@ namespace graphics2
             return tempPicture;
         }
 
-        public void rotate(int x, int y, int choosenX, int choosenY)
+        public void rotate(double x, double y, double choosenX, double choosenY,double angle)
         {
             PictureJson tranform = picture;
-            point refrence = picture.Lines[0].first;
-            tranform = moveToZero(tranform);
-            double angleInDegrees = Math.Atan2(y, x) * 180 / PI;
-
-            //for (int i = 0; i < tranform.Points.Length; ++i)
-            //{
-            //    tranform.Points[i].x += (tranform.Points[i].x * Math.Cos(angleInDegrees)) - (tranform.Points[i].y * Math.Sin(angleInDegrees));
-            //    tranform.Points[i].y += (tranform.Points[i].y * Math.Cos(angleInDegrees)) + (tranform.Points[i].x * Math.Sin(angleInDegrees));
-            //}
+            choosenX = centerPoint.x;
+            choosenY = centerPoint.y;
+            //tranform = moveToZero(tranform);
+            double angleInDegrees = Math.Atan2(x-choosenX, y-choosenY);
+            double angleInRad = angle / 180.0 * Math.PI;
+            double cos = Math.Cos(angleInRad);
+            double sin = Math.Sin(angleInRad);
+            centerPoint.x = (((centerPoint.x - choosenX) * cos) - ((centerPoint.y - choosenY) * sin) + choosenX);
+            centerPoint.y = (((centerPoint.y - choosenY) * cos) + ((centerPoint.x - choosenX) * sin) + choosenY);
             if (tranform.Lines != null)
                 for (int i = 0; i < tranform.Lines.Length; ++i)
                 {
-                    tranform.Lines[i].first.x += (tranform.Lines[i].first.x * Math.Cos(angleInDegrees)) - (tranform.Lines[i].first.y * Math.Sin(angleInDegrees));
-                    tranform.Lines[i].first.y += (tranform.Lines[i].first.y * Math.Cos(angleInDegrees)) + (tranform.Lines[i].first.x * Math.Sin(angleInDegrees));
-                    tranform.Lines[i].second.x += (tranform.Lines[i].second.x * Math.Cos(angleInDegrees)) - (tranform.Lines[i].second.y * Math.Sin(angleInDegrees));
-                    tranform.Lines[i].second.y += (tranform.Lines[i].second.y * Math.Cos(angleInDegrees)) + (tranform.Lines[i].second.x * Math.Sin(angleInDegrees));
+                    tranform.Lines[i].first.x = (((tranform.Lines[i].first.x - choosenX) * cos) - ((tranform.Lines[i].first.y - choosenY) * sin)+ choosenX);
+                    tranform.Lines[i].first.y = (((tranform.Lines[i].first.y - choosenY) * cos) + ((tranform.Lines[i].first.x - choosenX) * sin)+ choosenY);
+                    tranform.Lines[i].second.x = (((tranform.Lines[i].second.x - choosenX) * cos) - ((tranform.Lines[i].second.y - choosenY) * sin)+ choosenX);
+                    tranform.Lines[i].second.y = (((tranform.Lines[i].second.y - choosenY) * cos) + ((tranform.Lines[i].second.x - choosenX) * sin)+ choosenY);
                 }
             if (tranform.Circles != null)
                 for (int i = 0; i < tranform.Circles.Length; ++i)
@@ -309,7 +312,7 @@ namespace graphics2
                     tranform.Poligon[i].radius.y += (tranform.Poligon[i].radius.y * Math.Cos(angleInDegrees)) + (tranform.Poligon[i].radius.x * Math.Sin(angleInDegrees));
                 }
             // picture = moveBack(tranform);
-            move(picture.Lines[0].first.x, picture.Lines[0].first.y, refrence.x, refrence.y);
+            //move(picture.Lines[0].first.x, picture.Lines[0].first.y, refrence.x, refrence.y);
             draw();
         }
 
@@ -380,9 +383,13 @@ namespace graphics2
             if(pressed)
             {
                 if (action == 1)
-                    move(picture.Lines[0].first.x, picture.Lines[0].first.y, e.Location.X, e.Location.Y);
+                    move(centerPoint.x, centerPoint.y, e.Location.X, e.Location.Y);
                 if (action == 2)
-                    rotate(e.Location.X, e.Location.Y, 0, 0);
+                {   
+                    rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Acos((((MouseDownLocation.X * e.Location.X) + (MouseDownLocation.Y * e.Location.Y)) / (Math.Sqrt(Math.Pow(MouseDownLocation.X, 2) + Math.Pow(MouseDownLocation.Y, 2)) * Math.Sqrt(Math.Pow(e.Location.X, 2) + Math.Pow(e.Location.Y, 2))))));
+                    //rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y);
+                }
+                //rotate(e.Location.X, e.Location.Y, 0, 0);
                 if (action == 3) { }
                    // scale(e.Location.X, e.Location.Y);
             }
@@ -393,12 +400,16 @@ namespace graphics2
             pressed = false;
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                if (action == 1) { }
-                // move(picture.Lines[0].first.x, picture.Lines[0].first.y, MouseDownLocation.X, MouseDownLocation.Y);
-                if (action == 2) { }
-                    //rotate(e.Location.X, e.Location.Y, 0, 0);
+                if (action == 1) 
+                 move(centerPoint.x, centerPoint.y, MouseDownLocation.X, MouseDownLocation.Y);
+                if (action == 2)
+                    rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Acos((((MouseDownLocation.X * e.Location.X) + (MouseDownLocation.Y * e.Location.Y)) / (Math.Sqrt(Math.Pow(MouseDownLocation.X, 2) + Math.Pow(MouseDownLocation.Y, 2)) * Math.Sqrt(Math.Pow(e.Location.X, 2) + Math.Pow(e.Location.Y, 2))))));
+                   // rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y);
+                
                 if (action == 3)
                     scale(e.Location.X, e.Location.Y);
+                if (action == 6)
+                    centerPoint = new point(e.Location.X, e.Location.Y);
             }
         }
 
