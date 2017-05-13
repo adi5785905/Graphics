@@ -29,7 +29,7 @@ namespace graphics2
         int action = 1; // 1= move
         double PI = 3.14159265;
         public double baziaFactor = 0.0001;
-
+        bool pressed = false;
         public Form1()
         {
             InitializeComponent();
@@ -187,50 +187,51 @@ namespace graphics2
             }
         }
 
+        public PictureJson addValueToPictureJson(PictureJson pic,double calculateX, double calculateY)
+        {
+            if (pic.Lines != null)
+                for (int i = 0; i < pic.Lines.Length; ++i)
+                {
+
+                    pic.Lines[i].first.x += calculateX;
+                    pic.Lines[i].first.y += calculateY;
+                    pic.Lines[i].second.x += calculateX;
+                    pic.Lines[i].second.y += calculateY;
+                }
+            if (pic.Circles != null)
+                for (int i = 0; i < pic.Circles.Length; ++i)
+                {
+                    pic.Circles[i].center.x += calculateX;
+                    pic.Circles[i].center.y += calculateY;
+                }
+            if (pic.Curves != null)
+                for (int i = 0; i < pic.Curves.Length; ++i)
+                {
+                    pic.Curves[i].first.x += calculateX;
+                    pic.Curves[i].first.y += calculateY;
+                    pic.Curves[i].second.x += calculateX;
+                    pic.Curves[i].second.y += calculateY;
+                    pic.Curves[i].thired.x += calculateX;
+                    pic.Curves[i].thired.y += calculateY;
+                    pic.Curves[i].fourth.x += calculateX;
+                    pic.Curves[i].fourth.y += calculateY;
+                }
+            if (pic.Poligon != null)
+                for (int i = 0; i < pic.Poligon.Length; ++i)
+                {
+                    pic.Poligon[i].center.x += calculateX;
+                    pic.Poligon[i].center.y += calculateY;
+                    pic.Poligon[i].radius.x += calculateX;
+                    pic.Poligon[i].radius.y += calculateY;
+                }
+            return pic;
+        }
+
         public void move(double x1 , double y1, double x2, double y2)
         {
             double calculateX = x2 - x1;
             double calculateY = y2 - y1;
-            //for(int i = 0; i < picture.Points.Length; ++i)
-            //{
-            //    picture.Points[i].x += calculateX;
-            //    picture.Points[i].y += calculateY;
-            //}
-            if (picture.Lines != null)
-                for (int i = 0; i < picture.Lines.Length; ++i)
-                {
-
-                    picture.Lines[i].first.x += calculateX;
-                    picture.Lines[i].first.y += calculateY;
-                    picture.Lines[i].second.x += calculateX;
-                    picture.Lines[i].second.y += calculateY;
-                }
-            if (picture.Circles != null)
-                for (int i = 0; i < picture.Circles.Length; ++i)
-                {
-                    picture.Circles[i].center.x += calculateX;
-                    picture.Circles[i].center.y += calculateY;
-                }
-            if (picture.Curves != null)
-                for (int i = 0; i < picture.Curves.Length; ++i)
-                {
-                    picture.Curves[i].first.x += calculateX;
-                    picture.Curves[i].first.y += calculateY;
-                    picture.Curves[i].second.x += calculateX;
-                    picture.Curves[i].second.y += calculateY;
-                    picture.Curves[i].thired.x += calculateX;
-                    picture.Curves[i].thired.y += calculateY;
-                    picture.Curves[i].fourth.x += calculateX;
-                    picture.Curves[i].fourth.y += calculateY;
-                }
-            if (picture.Poligon != null)
-                for (int i = 0; i < picture.Poligon.Length; ++i)
-                {
-                    picture.Poligon[i].center.x += calculateX;
-                    picture.Poligon[i].center.y += calculateY;
-                    picture.Poligon[i].radius.x += calculateX;
-                    picture.Poligon[i].radius.y += calculateY;
-                }
+            picture = addValueToPictureJson(picture,calculateX, calculateY);
             draw();
         }
 
@@ -243,41 +244,8 @@ namespace graphics2
             //    tempPicture.Points[i].x += calculateX;
             //    tempPicture.Points[i].y += calculateY;
             //}
-            if (tempPicture.Lines != null)
-                for (int i = 0; i < tempPicture.Lines.Length; ++i)
-                {
+            tempPicture = addValueToPictureJson(tempPicture, calculateX, calculateY);
 
-                    tempPicture.Lines[i].first.x += calculateX;
-                    tempPicture.Lines[i].first.y += calculateY;
-                    tempPicture.Lines[i].second.x += calculateX;
-                    tempPicture.Lines[i].second.y += calculateY;
-                }
-            if (tempPicture.Circles != null)
-                for (int i = 0; i < tempPicture.Circles.Length; ++i)
-                {
-                    tempPicture.Circles[i].center.x += calculateX;
-                    tempPicture.Circles[i].center.y += calculateY;
-                }
-            if (tempPicture.Curves != null)
-                for (int i = 0; i < tempPicture.Curves.Length; ++i)
-                {
-                    tempPicture.Curves[i].first.x += calculateX;
-                    tempPicture.Curves[i].first.y += calculateY;
-                    tempPicture.Curves[i].second.x += calculateX;
-                    tempPicture.Curves[i].second.y += calculateY;
-                    tempPicture.Curves[i].thired.x += calculateX;
-                    tempPicture.Curves[i].thired.y += calculateY;
-                    tempPicture.Curves[i].fourth.x += calculateX;
-                    tempPicture.Curves[i].fourth.y += calculateY;
-                }
-            if (tempPicture.Poligon != null)
-                for (int i = 0; i < tempPicture.Poligon.Length; ++i)
-                {
-                    tempPicture.Poligon[i].center.x += calculateX;
-                    tempPicture.Poligon[i].center.y += calculateY;
-                    tempPicture.Poligon[i].radius.x += calculateX;
-                    tempPicture.Poligon[i].radius.y += calculateY;
-                }
             return tempPicture;
         }
 
@@ -290,41 +258,7 @@ namespace graphics2
             //    tempPicture.Points[i].x += calculateX;
             //    tempPicture.Points[i].y += calculateY;
             //}
-            if (tempPicture.Lines != null)
-                for (int i = 0; i < tempPicture.Lines.Length; ++i)
-                {
-
-                    tempPicture.Lines[i].first.x += calculateX;
-                    tempPicture.Lines[i].first.y += calculateY;
-                    tempPicture.Lines[i].second.x += calculateX;
-                    tempPicture.Lines[i].second.y += calculateY;
-                }
-            if (tempPicture.Circles != null)
-                for (int i = 0; i < tempPicture.Circles.Length; ++i)
-                {
-                    tempPicture.Circles[i].center.x += calculateX;
-                    tempPicture.Circles[i].center.y += calculateY;
-                }
-            if (tempPicture.Curves != null)
-                for (int i = 0; i < tempPicture.Curves.Length; ++i)
-                {
-                    tempPicture.Curves[i].first.x += calculateX;
-                    tempPicture.Curves[i].first.y += calculateY;
-                    tempPicture.Curves[i].second.x += calculateX;
-                    tempPicture.Curves[i].second.y += calculateY;
-                    tempPicture.Curves[i].thired.x += calculateX;
-                    tempPicture.Curves[i].thired.y += calculateY;
-                    tempPicture.Curves[i].fourth.x += calculateX;
-                    tempPicture.Curves[i].fourth.y += calculateY;
-                }
-            if (tempPicture.Poligon != null)
-                for (int i = 0; i < tempPicture.Poligon.Length; ++i)
-                {
-                    tempPicture.Poligon[i].center.x += calculateX;
-                    tempPicture.Poligon[i].center.y += calculateY;
-                    tempPicture.Poligon[i].radius.x += calculateX;
-                    tempPicture.Poligon[i].radius.y += calculateY;
-                }
+            tempPicture = addValueToPictureJson(tempPicture, calculateX, calculateY);
             return tempPicture;
         }
 
@@ -437,22 +371,32 @@ namespace graphics2
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 MouseDownLocation = e.Location;
+                pressed = true;
             }
         }
 
         private void panel1_MouseMove_1(object sender, MouseEventArgs e)
         {
-
+            if(pressed)
+            {
+                if (action == 1)
+                    move(picture.Lines[0].first.x, picture.Lines[0].first.y, e.Location.X, e.Location.Y);
+                if (action == 2)
+                    rotate(e.Location.X, e.Location.Y, 0, 0);
+                if (action == 3) { }
+                   // scale(e.Location.X, e.Location.Y);
+            }
         }
 
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
+            pressed = false;
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-                if(action == 1)
-                move(picture.Lines[0].first.x, picture.Lines[0].first.y, MouseDownLocation.X, MouseDownLocation.Y);
-                if (action == 2)
-                    rotate(e.Location.X, e.Location.Y, 0, 0);
+                if (action == 1) { }
+                // move(picture.Lines[0].first.x, picture.Lines[0].first.y, MouseDownLocation.X, MouseDownLocation.Y);
+                if (action == 2) { }
+                    //rotate(e.Location.X, e.Location.Y, 0, 0);
                 if (action == 3)
                     scale(e.Location.X, e.Location.Y);
             }
