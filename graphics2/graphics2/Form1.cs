@@ -343,7 +343,6 @@ namespace graphics2
             if (tranform.Lines != null)
                 for (int i = 0; i < tranform.Lines.Length; ++i)
                 {
-
                     tranform.Lines[i].first.x += (tranform.Lines[i].first.x * Math.Cos(angleInDegrees)) - (tranform.Lines[i].first.y * Math.Sin(angleInDegrees));
                     tranform.Lines[i].first.y += (tranform.Lines[i].first.y * Math.Cos(angleInDegrees)) + (tranform.Lines[i].first.x * Math.Sin(angleInDegrees));
                     tranform.Lines[i].second.x += (tranform.Lines[i].second.x * Math.Cos(angleInDegrees)) - (tranform.Lines[i].second.y * Math.Sin(angleInDegrees));
@@ -380,6 +379,48 @@ namespace graphics2
             draw();
         }
 
+
+
+        public void scale(int newX,int newY)
+        {
+            PictureJson tranform = new PictureJson(picture);
+
+
+            ///////////////////scale all shapes
+
+
+
+
+
+            //to scale a line, we scale the second point by the scale factore
+            if (tranform.Lines != null)
+            {
+                for (int i = 0; i < tranform.Lines.Length; ++i)
+                {
+                    //calculate scaling factor of x
+                    double xScaleFactor = newX / tranform.Lines[i].second.x;
+                        //(newX - tranform.Lines[i].first.x)  / (tranform.Lines[i].second.x - tranform.Lines[i].first.x);
+
+                    //calculate scaling factor of y
+                    double yScaleFactor = newY / tranform.Lines[i].second.y;
+
+                    tranform = moveToZero(tranform);
+
+                    tranform.Lines[i].second.x = tranform.Lines[i].second.x * xScaleFactor;
+                    tranform.Lines[i].second.y = tranform.Lines[i].second.y * yScaleFactor;
+                }
+            }
+
+
+
+            //to scale a circle we need to scale the radius
+
+
+            picture = moveBack(tranform);
+            draw();
+
+        }
+
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -412,6 +453,8 @@ namespace graphics2
                 move(picture.Lines[0].first.x, picture.Lines[0].first.y, MouseDownLocation.X, MouseDownLocation.Y);
                 if (action == 2)
                     rotate(e.Location.X, e.Location.Y, 0, 0);
+                if (action == 3)
+                    scale(e.Location.X, e.Location.Y);
             }
         }
 
@@ -599,6 +642,9 @@ namespace graphics2
            
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
 
+        }
     }
 }
