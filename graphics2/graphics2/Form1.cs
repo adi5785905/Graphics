@@ -258,6 +258,11 @@ namespace graphics2
 
         private void panel1_MouseMove_1(object sender, MouseEventArgs e)
         {
+
+        }
+
+        private void panel1_MouseUp(object sender, MouseEventArgs e)
+        {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
 
@@ -308,6 +313,8 @@ namespace graphics2
         {
             if (radioButton6.AutoCheck) action = 6;
         }
+
+
 
 
         public double getRadius(int x1, int y1, int x2, int y2)
