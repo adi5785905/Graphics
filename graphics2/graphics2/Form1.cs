@@ -196,6 +196,40 @@ namespace graphics2
                 picture.Points[i].x += calculateX;
                 picture.Points[i].y += calculateY;
             }
+            if (picture.Lines != null)
+                for (int i = 0; i < picture.Lines.Length; ++i)
+                {
+
+                    picture.Lines[i].first.x += calculateX;
+                    picture.Lines[i].first.y += calculateY;
+                    picture.Lines[i].second.x += calculateX;
+                    picture.Lines[i].second.y += calculateY;
+                }
+            if (picture.Circles != null)
+                for (int i = 0; i < picture.Circles.Length; ++i)
+                {
+                   //do move 
+                }
+            if (picture.Curves != null)
+                for (int i = 0; i < picture.Curves.Length; ++i)
+                {
+                    picture.Curves[i].first.x += calculateX;
+                    picture.Curves[i].first.y += calculateY;
+                    picture.Curves[i].second.x += calculateX;
+                    picture.Curves[i].second.y += calculateY;
+                    picture.Curves[i].thired.x += calculateX;
+                    picture.Curves[i].thired.y += calculateY;
+                    picture.Curves[i].fourth.x += calculateX;
+                    picture.Curves[i].fourth.y += calculateY;
+                }
+            if (picture.Poligon != null)
+                for (int i = 0; i < picture.Poligon.Length; ++i)
+                {
+                    picture.Poligon[i].center.x += calculateX;
+                    picture.Poligon[i].center.y += calculateY;
+                    picture.Poligon[i].radius.x += calculateX;
+                    picture.Poligon[i].radius.y += calculateY;
+                }
             draw();
         }
 
@@ -265,22 +299,8 @@ namespace graphics2
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
-
-                //double addToX = e.X + picture.Lines[0].first.x - MouseDownLocation.X;
-                //double addToY = e.Y + picture.Lines[0].first.y - MouseDownLocation.Y;
-                double addToX = MouseDownLocation.X - picture.Lines[0].first.x;
-                double addToY = MouseDownLocation.Y - picture.Lines[0].first.y;
-                //move(picture.Points[0].x, picture.Points[0].y, e.X + picture.Points[0].x - MouseDownLocation.X, e.Y + picture.Points[0].y - MouseDownLocation.Y);
-
-                for (int i = 0; i < picture.Lines.Length; ++i)
-                {
-
-                    picture.Lines[i].first.x += addToX;
-                    picture.Lines[i].first.y += addToY;
-                    picture.Lines[i].second.x += addToX;
-                    picture.Lines[i].second.y += addToY;
-                }
-                draw();
+                if(action == 1)
+                move(picture.Points[0].x, picture.Points[0].y, MouseDownLocation.X, MouseDownLocation.Y);
             }
         }
 
