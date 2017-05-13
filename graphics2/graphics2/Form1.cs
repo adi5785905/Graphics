@@ -208,7 +208,8 @@ namespace graphics2
             if (picture.Circles != null)
                 for (int i = 0; i < picture.Circles.Length; ++i)
                 {
-                   //do move 
+                    picture.Circles[i].center.x += calculateX;
+                    picture.Circles[i].center.y += calculateY;
                 }
             if (picture.Curves != null)
                 for (int i = 0; i < picture.Curves.Length; ++i)
