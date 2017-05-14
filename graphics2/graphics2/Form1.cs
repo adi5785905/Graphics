@@ -318,11 +318,91 @@ namespace graphics2
             draw();
         }
 
-        public void mirroring()
+        public void mirroringX()
         {
-
+            point refrence = centerPoint;
+            centerPoint.x = 0-centerPoint.x;
+            centerPoint.y = 0-centerPoint.y;
+            if (picture.Lines != null)
+                for (int i = 0; i < picture.Lines.Length; ++i)
+                {
+                    picture.Lines[i].first.x = 0-picture.Lines[i].first.x;
+                    picture.Lines[i].first.y = 0-picture.Lines[i].first.y;
+                    picture.Lines[i].second.x = 0-picture.Lines[i].second.x;
+                    picture.Lines[i].second.y = 0-picture.Lines[i].second.y;
+                }
+            if (picture.Circles != null)
+                for (int i = 0; i < picture.Circles.Length; ++i)
+                {
+                    picture.Circles[i].center.x = 0-picture.Circles[i].center.x;
+                    picture.Circles[i].center.y = 0-picture.Circles[i].center.y;
+                }
+            if (picture.Curves != null)
+                for (int i = 0; i < picture.Curves.Length; ++i)
+                {
+                    picture.Curves[i].first.x = 0-picture.Curves[i].first.x;
+                    picture.Curves[i].first.y = 0-picture.Curves[i].first.y;
+                    picture.Curves[i].second.x = 0-picture.Curves[i].second.x;
+                    picture.Curves[i].second.y = 0-picture.Curves[i].second.y;
+                    picture.Curves[i].thired.x = 0-picture.Curves[i].thired.x;
+                    picture.Curves[i].thired.y = 0-picture.Curves[i].thired.y;
+                    picture.Curves[i].fourth.x = 0-picture.Curves[i].fourth.x;
+                    picture.Curves[i].fourth.y = 0-picture.Curves[i].fourth.y;
+                }
+            if (picture.Poligon != null)
+                for (int i = 0; i < picture.Poligon.Length; ++i)
+                {
+                    picture.Poligon[i].center.x = 0- picture.Poligon[i].center.x;
+                    picture.Poligon[i].center.y = 0- picture.Poligon[i].center.y;
+                    picture.Poligon[i].radius.x = 0- picture.Poligon[i].radius.x;
+                    picture.Poligon[i].radius.y = 0- picture.Poligon[i].radius.y;
+                }
+            move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
+            draw();
         }
-
+        
+        public void mirroringY()
+        {
+            point refrence = centerPoint;
+            centerPoint.x = 0 - centerPoint.x;
+           // centerPoint.y = 0 - centerPoint.y;
+            if (picture.Lines != null)
+                for (int i = 0; i < picture.Lines.Length; ++i)
+                {
+                    picture.Lines[i].first.x = 0 - picture.Lines[i].first.x;
+                   // picture.Lines[i].first.y = 0 - picture.Lines[i].first.y;
+                    picture.Lines[i].second.x = 0 - picture.Lines[i].second.x;
+                   // picture.Lines[i].second.y = 0 - picture.Lines[i].second.y;
+                }
+            if (picture.Circles != null)
+                for (int i = 0; i < picture.Circles.Length; ++i)
+                {
+                    picture.Circles[i].center.x = 0 - picture.Circles[i].center.x;
+                    //picture.Circles[i].center.y = 0 - picture.Circles[i].center.y;
+                }
+            if (picture.Curves != null)
+                for (int i = 0; i < picture.Curves.Length; ++i)
+                {
+                    picture.Curves[i].first.x = 0 - picture.Curves[i].first.x;
+                   // picture.Curves[i].first.y = 0 - picture.Curves[i].first.y;
+                    picture.Curves[i].second.x = 0 - picture.Curves[i].second.x;
+                   // picture.Curves[i].second.y = 0 - picture.Curves[i].second.y;
+                    picture.Curves[i].thired.x = 0 - picture.Curves[i].thired.x;
+                   // picture.Curves[i].thired.y = 0 - picture.Curves[i].thired.y;
+                    picture.Curves[i].fourth.x = 0 - picture.Curves[i].fourth.x;
+                   // picture.Curves[i].fourth.y = 0 - picture.Curves[i].fourth.y;
+                }
+            if (picture.Poligon != null)
+                for (int i = 0; i < picture.Poligon.Length; ++i)
+                {
+                    picture.Poligon[i].center.x = 0 - picture.Poligon[i].center.x;
+                   // picture.Poligon[i].center.y = 0 - picture.Poligon[i].center.y;
+                    picture.Poligon[i].radius.x = 0 - picture.Poligon[i].radius.x;
+                   // picture.Poligon[i].radius.y = 0 - picture.Poligon[i].radius.y;
+                }
+            move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
+            draw();
+        }
         public void scale(int newX,int newY)
         {
             PictureJson tranform = new PictureJson(picture);
@@ -405,9 +485,9 @@ namespace graphics2
                 if (action == 1)
                     move(centerPoint.x, centerPoint.y, e.Location.X, e.Location.Y);
                 if (action == 2)
-                {   
-                    rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Acos((((MouseDownLocation.X * e.Location.X) + (MouseDownLocation.Y * e.Location.Y)) / (Math.Sqrt(Math.Pow(MouseDownLocation.X, 2) + Math.Pow(MouseDownLocation.Y, 2)) * Math.Sqrt(Math.Pow(e.Location.X, 2) + Math.Pow(e.Location.Y, 2))))));
-                    //rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y);
+                {
+                    rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Atan2(e.Location.Y - centerPoint.y, e.Location.X - centerPoint.x));
+                    // rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Acos((((MouseDownLocation.X * e.Location.X) + (MouseDownLocation.Y * e.Location.Y)) / (Math.Sqrt(Math.Pow(MouseDownLocation.X, 2) + Math.Pow(MouseDownLocation.Y, 2)) * Math.Sqrt(Math.Pow(e.Location.X, 2) + Math.Pow(e.Location.Y, 2))))));
                 }
                 //rotate(e.Location.X, e.Location.Y, 0, 0);
                 if (action == 3) { }
@@ -423,15 +503,18 @@ namespace graphics2
                 if (action == 1) 
                  move(centerPoint.x, centerPoint.y, MouseDownLocation.X, MouseDownLocation.Y);
                 if (action == 2)
-                    rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Acos((((MouseDownLocation.X * e.Location.X) + (MouseDownLocation.Y * e.Location.Y)) / (Math.Sqrt(Math.Pow(MouseDownLocation.X, 2) + Math.Pow(MouseDownLocation.Y, 2)) * Math.Sqrt(Math.Pow(e.Location.X, 2) + Math.Pow(e.Location.Y, 2))))));
+               //     rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Atan2(e.Location.Y- centerPoint.y, e.Location.X- centerPoint.x) * (180 / Math.PI));
                    // rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y);
                 
                 if (action == 3)
                     scale(e.Location.X, e.Location.Y);
-                if (action == 4)
-                    mirroring();
+
                 if (action == 6)
                     centerPoint = new point(e.Location.X, e.Location.Y);
+                if (action == 7)
+                    mirroringX();
+                if (action == 8)
+                    mirroringY();
             }
         }
 
@@ -465,6 +548,14 @@ namespace graphics2
             if (radioButton6.AutoCheck) action = 6;
         }
 
+        private void radioButton7_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton7.AutoCheck) action = 7;
+        }
+        private void radioButton8_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton8.AutoCheck) action = 8;
+        }
 
         //Distance
         public double getRadius(int x1, int y1, int x2, int y2)
