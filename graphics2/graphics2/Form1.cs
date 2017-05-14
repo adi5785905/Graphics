@@ -323,6 +323,8 @@ namespace graphics2
             PictureJson tranform = new PictureJson(picture);
 
 
+            
+
             ///////////////////scale all shapes
 
 
@@ -334,17 +336,30 @@ namespace graphics2
             {
                 for (int i = 0; i < tranform.Lines.Length; ++i)
                 {
+
+                    double newSizeX = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y,newX,newY);
+                    double oldSizeX = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y, (int)tranform.Lines[i].second.x, (int)tranform.Lines[i].second.y);
+
+                    double ratioFactor = newSizeX / oldSizeX;
+
+                    /*
+                    double newSizeY = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y, newX, newY);
+                    double oldSizeY = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y, (int)tranform.Lines[i].second.x, (int)tranform.Lines[i].second.y);
+
+                    double yScaleFactor = newSizeY / oldSizeY;
+                    */
+
                     //calculate scaling factor of x
-                    double xScaleFactor = newX / tranform.Lines[i].second.x;
-                        //(newX - tranform.Lines[i].first.x)  / (tranform.Lines[i].second.x - tranform.Lines[i].first.x);
+                    // double xScaleFactor = newX / tranform.Lines[i].second.x;
+                    //(newX - tranform.Lines[i].first.x)  / (tranform.Lines[i].second.x - tranform.Lines[i].first.x);
 
                     //calculate scaling factor of y
-                    double yScaleFactor = newY / tranform.Lines[i].second.y;
+                    //double yScaleFactor = newY / tranform.Lines[i].second.y;
 
                     tranform = moveToZero(tranform);
 
-                    tranform.Lines[i].second.x = tranform.Lines[i].second.x * xScaleFactor;
-                    tranform.Lines[i].second.y = tranform.Lines[i].second.y * yScaleFactor;
+                    tranform.Lines[i].second.x = tranform.Lines[i].second.x * ratioFactor;
+                    tranform.Lines[i].second.y = tranform.Lines[i].second.y * ratioFactor;
                 }
             }
 
@@ -391,7 +406,7 @@ namespace graphics2
                 }
                 //rotate(e.Location.X, e.Location.Y, 0, 0);
                 if (action == 3) { }
-                   // scale(e.Location.X, e.Location.Y);
+                    //scale(e.Location.X, e.Location.Y);
             }
         }
 
@@ -444,8 +459,7 @@ namespace graphics2
         }
 
 
-
-
+        //Distance
         public double getRadius(int x1, int y1, int x2, int y2)
         {
             return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
