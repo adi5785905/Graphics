@@ -147,13 +147,15 @@ namespace graphics2
 
         public void createTemp()
         {
-            picture = new PictureJson(4, 2, 0, 0, 0);
+            picture = new PictureJson(4, 2, 1, 0, 1);
             //picture.Points[0] = new point(50, 50);
             //picture.Points[1] = new point(70, 50);
             //picture.Points[2] = new point(80, 90);
             //picture.Points[3] = new point(30, 70);
             picture.Lines[0] = new line(new point(50, 50), new point(70, 50));
             picture.Lines[1] = new line(new point(80, 90), new point(30, 70));
+            picture.Circles[0] = new circle(new graphics2.centerPoint(100, 100), 10);
+            picture.Poligon[0] = new poligon(new graphics2.centerPoint(150, 150), new point(170, 150), 4);
         }
 
         public PictureJson parseJson(string jsonString, string name)
@@ -268,10 +270,10 @@ namespace graphics2
         public void rotate(double x, double y, double choosenX, double choosenY,double angle)
         {
             PictureJson tranform = picture;
-            choosenX = centerPoint.x;
-            choosenY = centerPoint.y;
+           // choosenX = centerPoint.x;
+           // choosenY = centerPoint.y;
             //tranform = moveToZero(tranform);
-            double angleInDegrees = Math.Atan2(x-choosenX, y-choosenY);
+            //double angleInDegrees = Math.Atan2(x-choosenX, y-choosenY);
             double angleInRad = angle / 180.0 * Math.PI;
             double cos = Math.Cos(angleInRad);
             double sin = Math.Sin(angleInRad);
@@ -288,35 +290,38 @@ namespace graphics2
             if (tranform.Circles != null)
                 for (int i = 0; i < tranform.Circles.Length; ++i)
                 {
-                    tranform.Circles[i].center.x += (tranform.Circles[i].center.x * Math.Cos(angleInDegrees)) - (tranform.Circles[i].center.y * Math.Sin(angleInDegrees));
-                    tranform.Circles[i].center.y += (tranform.Circles[i].center.y * Math.Cos(angleInDegrees)) + (tranform.Circles[i].center.x * Math.Sin(angleInDegrees));
+                    tranform.Circles[i].center.x = (((tranform.Circles[i].center.x - choosenX) * cos) - ((tranform.Circles[i].center.y - choosenY) * sin) + choosenX);
+                    tranform.Circles[i].center.y = (((tranform.Circles[i].center.y - choosenY) * cos) + ((tranform.Circles[i].center.x - choosenX) * sin) + choosenY);
                 }
             if (tranform.Curves != null)
                 for (int i = 0; i < tranform.Curves.Length; ++i)
                 {
-                    tranform.Curves[i].first.x += (tranform.Curves[i].first.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].first.y * Math.Sin(angleInDegrees));
-                    tranform.Curves[i].first.y += (tranform.Curves[i].first.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].first.x * Math.Sin(angleInDegrees));
-                    tranform.Curves[i].second.x += (tranform.Curves[i].second.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].second.y * Math.Sin(angleInDegrees));
-                    tranform.Curves[i].second.y += (tranform.Curves[i].second.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].second.x * Math.Sin(angleInDegrees));
-                    tranform.Curves[i].thired.x += (tranform.Curves[i].thired.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].thired.y * Math.Sin(angleInDegrees));
-                    tranform.Curves[i].thired.y += (tranform.Curves[i].thired.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].thired.x * Math.Sin(angleInDegrees));
-                    tranform.Curves[i].fourth.x += (tranform.Curves[i].fourth.x * Math.Cos(angleInDegrees)) - (tranform.Curves[i].fourth.y * Math.Sin(angleInDegrees));
-                    tranform.Curves[i].fourth.y += (tranform.Curves[i].fourth.y * Math.Cos(angleInDegrees)) + (tranform.Curves[i].fourth.x * Math.Sin(angleInDegrees));
+                    tranform.Curves[i].first.x = (((tranform.Curves[i].first.x - choosenX) * cos) - ((tranform.Curves[i].first.y - choosenY) * sin) + choosenX);
+                    tranform.Curves[i].first.y = (((tranform.Curves[i].first.y - choosenY) * cos) + ((tranform.Curves[i].first.x - choosenX) * sin) + choosenY);
+                    tranform.Curves[i].second.x = (((tranform.Curves[i].second.x - choosenX) * cos) - ((tranform.Curves[i].second.y - choosenY) * sin) + choosenX);
+                    tranform.Curves[i].second.y = (((tranform.Curves[i].second.y - choosenY) * cos) + ((tranform.Curves[i].second.x - choosenX) * sin) + choosenY);
+                    tranform.Curves[i].thired.x = (((tranform.Curves[i].thired.x - choosenX) * cos) - ((tranform.Curves[i].thired.y - choosenY) * sin) + choosenX);
+                    tranform.Curves[i].thired.y = (((tranform.Curves[i].thired.y - choosenY) * cos) + ((tranform.Curves[i].thired.x - choosenX) * sin) + choosenY);
+                    tranform.Curves[i].fourth.x = (((tranform.Curves[i].fourth.x - choosenX) * cos) - ((tranform.Curves[i].fourth.y - choosenY) * sin) + choosenX);
+                    tranform.Curves[i].fourth.y = (((tranform.Curves[i].fourth.y - choosenY) * cos) + ((tranform.Curves[i].fourth.x - choosenX) * sin) + choosenY);
                 }
             if (tranform.Poligon != null)
                 for (int i = 0; i < tranform.Poligon.Length; ++i)
                 {
-                    tranform.Poligon[i].center.x += (tranform.Poligon[i].center.x * Math.Cos(angleInDegrees)) - (tranform.Poligon[i].center.y * Math.Sin(angleInDegrees));
-                    tranform.Poligon[i].center.y += (tranform.Poligon[i].center.y * Math.Cos(angleInDegrees)) + (tranform.Poligon[i].center.x * Math.Sin(angleInDegrees));
-                    tranform.Poligon[i].radius.x += (tranform.Poligon[i].radius.x * Math.Cos(angleInDegrees)) - (tranform.Poligon[i].radius.y * Math.Sin(angleInDegrees));
-                    tranform.Poligon[i].radius.y += (tranform.Poligon[i].radius.y * Math.Cos(angleInDegrees)) + (tranform.Poligon[i].radius.x * Math.Sin(angleInDegrees));
+                    tranform.Poligon[i].center.x = (((tranform.Poligon[i].center.x - choosenX) * cos) - ((tranform.Poligon[i].center.y - choosenY) * sin) + choosenX);
+                    tranform.Poligon[i].center.y = (((tranform.Poligon[i].center.y - choosenY) * cos) + ((tranform.Poligon[i].center.x - choosenX) * sin) + choosenY);
+                    tranform.Poligon[i].radius.x = (((tranform.Poligon[i].radius.x - choosenX) * cos) - ((tranform.Poligon[i].radius.y - choosenY) * sin) + choosenX);
+                    tranform.Poligon[i].radius.y = (((tranform.Poligon[i].radius.y - choosenY) * cos) + ((tranform.Poligon[i].radius.x - choosenX) * sin) + choosenY);
                 }
             // picture = moveBack(tranform);
             //move(picture.Lines[0].first.x, picture.Lines[0].first.y, refrence.x, refrence.y);
             draw();
         }
 
+        public void mirroring()
+        {
 
+        }
 
         public void scale(int newX,int newY)
         {
@@ -423,6 +428,8 @@ namespace graphics2
                 
                 if (action == 3)
                     scale(e.Location.X, e.Location.Y);
+                if (action == 4)
+                    mirroring();
                 if (action == 6)
                     centerPoint = new point(e.Location.X, e.Location.Y);
             }
