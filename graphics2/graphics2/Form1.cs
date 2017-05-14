@@ -270,10 +270,10 @@ namespace graphics2
         public void rotate(double x, double y, double choosenX, double choosenY,double angle)
         {
             PictureJson tranform = picture;
-            choosenX = centerPoint.x;
-            choosenY = centerPoint.y;
+           // choosenX = centerPoint.x;
+           // choosenY = centerPoint.y;
             //tranform = moveToZero(tranform);
-            double angleInDegrees = Math.Atan2(x-choosenX, y-choosenY);
+            //double angleInDegrees = Math.Atan2(x-choosenX, y-choosenY);
             double angleInRad = angle / 180.0 * Math.PI;
             double cos = Math.Cos(angleInRad);
             double sin = Math.Sin(angleInRad);
@@ -320,9 +320,7 @@ namespace graphics2
 
         public void mirroring()
         {
-            point basePoint = centerPoint;
-            g.ScaleTransform(1, -1);
-            move(centerPoint.x, centerPoint.y, basePoint.x, basePoint.y);
+
         }
 
         public void scale(int newX,int newY)
