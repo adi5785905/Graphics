@@ -318,7 +318,12 @@ namespace graphics2
             draw();
         }
 
-
+        public void mirroring()
+        {
+            point basePoint = centerPoint;
+            g.ScaleTransform(1, -1);
+            move(centerPoint.x, centerPoint.y, basePoint.x, basePoint.y);
+        }
 
         public void scale(int newX,int newY)
         {
@@ -410,6 +415,8 @@ namespace graphics2
                 
                 if (action == 3)
                     scale(e.Location.X, e.Location.Y);
+                if (action == 4)
+                    mirroring();
                 if (action == 6)
                     centerPoint = new point(e.Location.X, e.Location.Y);
             }
