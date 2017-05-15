@@ -407,53 +407,51 @@ namespace graphics2
         {
             PictureJson tranform = new PictureJson(picture);
 
+            point refrence = centerPoint;
+            double scaleRatio = 1.5;
 
-            
+            tranform = moveToZero(tranform);
 
-            ///////////////////scale all shapes
-
-
-
-
-
-            //to scale a line, we scale the second point by the scale factore
             if (tranform.Lines != null)
             {
                 for (int i = 0; i < tranform.Lines.Length; ++i)
                 {
-
-                    double newSizeX = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y,newX,newY);
-                    double oldSizeX = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y, (int)tranform.Lines[i].second.x, (int)tranform.Lines[i].second.y);
-
-                    double ratioFactor = newSizeX / oldSizeX;
-
-                    /*
-                    double newSizeY = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y, newX, newY);
-                    double oldSizeY = getRadius((int)tranform.Lines[i].first.x, (int)tranform.Lines[i].first.y, (int)tranform.Lines[i].second.x, (int)tranform.Lines[i].second.y);
-
-                    double yScaleFactor = newSizeY / oldSizeY;
-                    */
-
-                    //calculate scaling factor of x
-                    // double xScaleFactor = newX / tranform.Lines[i].second.x;
-                    //(newX - tranform.Lines[i].first.x)  / (tranform.Lines[i].second.x - tranform.Lines[i].first.x);
-
-                    //calculate scaling factor of y
-                    //double yScaleFactor = newY / tranform.Lines[i].second.y;
-
-                    tranform = moveToZero(tranform);
-
-                    tranform.Lines[i].second.x = tranform.Lines[i].second.x * ratioFactor;
-                    tranform.Lines[i].second.y = tranform.Lines[i].second.y * ratioFactor;
+                    tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
+                    tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
                 }
             }
+            if (picture.Circles != null)
+                for (int i = 0; i < picture.Circles.Length; ++i)
+                {
+                    picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
+                    //picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
+                    //picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
+                }
+            if (picture.Curves != null)
+                for (int i = 0; i < picture.Curves.Length; ++i)
+                {
+                    picture.Curves[i].first.x = 0 - picture.Curves[i].first.x;
+                    // picture.Curves[i].first.y = 0 - picture.Curves[i].first.y;
+                    picture.Curves[i].second.x = 0 - picture.Curves[i].second.x;
+                    // picture.Curves[i].second.y = 0 - picture.Curves[i].second.y;
+                    picture.Curves[i].thired.x = 0 - picture.Curves[i].thired.x;
+                    // picture.Curves[i].thired.y = 0 - picture.Curves[i].thired.y;
+                    picture.Curves[i].fourth.x = 0 - picture.Curves[i].fourth.x;
+                    // picture.Curves[i].fourth.y = 0 - picture.Curves[i].fourth.y;
+                }
+            if (picture.Poligon != null)
+                for (int i = 0; i < picture.Poligon.Length; ++i)
+                {
+                    picture.Poligon[i].center.x = 0 - picture.Poligon[i].center.x;
+                    // picture.Poligon[i].center.y = 0 - picture.Poligon[i].center.y;
+                    picture.Poligon[i].radius.x = 0 - picture.Poligon[i].radius.x;
+                    // picture.Poligon[i].radius.y = 0 - picture.Poligon[i].radius.y;
+                }
 
 
 
-            //to scale a circle we need to scale the radius
-
-
-            picture = moveBack(tranform);
+            //picture = moveBack(tranform);
+            move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
             draw();
 
         }
@@ -475,6 +473,9 @@ namespace graphics2
             {
                 MouseDownLocation = e.Location;
                 pressed = true;
+
+                if (action == 3)
+                    scale(e.Location.X, e.Location.Y);
             }
         }
 
@@ -506,9 +507,8 @@ namespace graphics2
                //     rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Atan2(e.Location.Y- centerPoint.y, e.Location.X- centerPoint.x) * (180 / Math.PI));
                    // rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y);
                 
-                if (action == 3)
-                    scale(e.Location.X, e.Location.Y);
-
+                //if (action == 3)
+                //    scale(e.Location.X, e.Location.Y);
                 if (action == 6)
                     centerPoint = new point(e.Location.X, e.Location.Y);
                 if (action == 7)
