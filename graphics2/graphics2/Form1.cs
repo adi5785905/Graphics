@@ -538,6 +538,8 @@ namespace graphics2
                 //scale(e.Location.X, e.Location.Y);
                 if (action == 5)
                     shearX(e.Location.X - MouseDownLocation.X);
+                if (action == 5)
+                    shearX(e.Location.X - MouseDownLocation.X);
             }
         }
 
@@ -601,6 +603,10 @@ namespace graphics2
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton8.AutoCheck) action = 8;
+        }
+        private void radioButton9_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton9.AutoCheck) action = 9;
         }
 
         //Distance
@@ -759,5 +765,7 @@ namespace graphics2
         {
 
         }
+
+
     }
 }
