@@ -460,41 +460,47 @@ namespace graphics2
             {
                 for (int i = 0; i < tranform.Lines.Length; ++i)
                 {
+                    double startX = tranform.Lines[i].first.x;
+                    double endX = tranform.Lines[i].second.x;
+                    double startY = tranform.Lines[i].first.y;
+                    double endY = tranform.Lines[i].second.y;
+
+                    tranform.Lines[i].first.x = tranform.Lines[i].first.x * scaleRatio;
                     tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
+                    tranform.Lines[i].first.y = tranform.Lines[i].first.y * scaleRatio;
                     tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
+
                 }
             }
             if (picture.Circles != null)
                 for (int i = 0; i < picture.Circles.Length; ++i)
                 {
-                    picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
-                    //picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
-                    //picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
+                   picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
+                   picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
+                   picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
                 }
             if (picture.Curves != null)
                 for (int i = 0; i < picture.Curves.Length; ++i)
                 {
-                    picture.Curves[i].first.x = 0 - picture.Curves[i].first.x;
-                    // picture.Curves[i].first.y = 0 - picture.Curves[i].first.y;
-                    picture.Curves[i].second.x = 0 - picture.Curves[i].second.x;
-                    // picture.Curves[i].second.y = 0 - picture.Curves[i].second.y;
-                    picture.Curves[i].thired.x = 0 - picture.Curves[i].thired.x;
-                    // picture.Curves[i].thired.y = 0 - picture.Curves[i].thired.y;
-                    picture.Curves[i].fourth.x = 0 - picture.Curves[i].fourth.x;
-                    // picture.Curves[i].fourth.y = 0 - picture.Curves[i].fourth.y;
+                    //need to check - had no curves
+                    picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
+                    picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
+                    picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
+                    picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
+                    picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
+                    picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
+                    picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
+                    picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
                 }
             if (picture.Poligon != null)
                 for (int i = 0; i < picture.Poligon.Length; ++i)
                 {
-                    picture.Poligon[i].center.x = 0 - picture.Poligon[i].center.x;
-                    // picture.Poligon[i].center.y = 0 - picture.Poligon[i].center.y;
-                    picture.Poligon[i].radius.x = 0 - picture.Poligon[i].radius.x;
-                    // picture.Poligon[i].radius.y = 0 - picture.Poligon[i].radius.y;
+                    picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
+                    picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
+                    picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
+                    picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
                 }
 
-
-
-            //picture = moveBack(tranform);
             move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
             draw();
 
