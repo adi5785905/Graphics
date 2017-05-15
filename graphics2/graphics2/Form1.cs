@@ -506,9 +506,8 @@ namespace graphics2
         public void scale(int newX,int newY)
         {
             PictureJson tranform = new PictureJson(picture);
-
             point refrence = centerPoint;
-            double scaleRatio = 1.5;
+            double scaleRatio = 1.2;
 
             tranform = moveToZero(tranform);
 
@@ -516,16 +515,10 @@ namespace graphics2
             {
                 for (int i = 0; i < tranform.Lines.Length; ++i)
                 {
-                    double startX = tranform.Lines[i].first.x;
-                    double endX = tranform.Lines[i].second.x;
-                    double startY = tranform.Lines[i].first.y;
-                    double endY = tranform.Lines[i].second.y;
-
                     tranform.Lines[i].first.x = tranform.Lines[i].first.x * scaleRatio;
                     tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
                     tranform.Lines[i].first.y = tranform.Lines[i].first.y * scaleRatio;
                     tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
-
                 }
             }
             if (picture.Circles != null)
@@ -559,7 +552,6 @@ namespace graphics2
 
             move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
             draw();
-
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
