@@ -44,7 +44,8 @@ namespace graphics2
             centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
             radioButton1.Text = "Move";
             radioButton2.Text = "Rotate";
-            radioButton3.Text = "Scale";
+            radioButton3.Text = "Scale out";
+            radioButton10.Text = "Scale in";
             radioButton5.Text = "Shear X";
             radioButton9.Text = "Shear Y";
             radioButton6.Text = "Choose Center";
