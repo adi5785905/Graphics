@@ -360,19 +360,19 @@ namespace graphics2
             move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
             draw();
         }
-        
+
         public void mirroringY()
         {
             point refrence = centerPoint;
             centerPoint.x = 0 - centerPoint.x;
-           // centerPoint.y = 0 - centerPoint.y;
+            // centerPoint.y = 0 - centerPoint.y;
             if (picture.Lines != null)
                 for (int i = 0; i < picture.Lines.Length; ++i)
                 {
                     picture.Lines[i].first.x = 0 - picture.Lines[i].first.x;
-                   // picture.Lines[i].first.y = 0 - picture.Lines[i].first.y;
+                    // picture.Lines[i].first.y = 0 - picture.Lines[i].first.y;
                     picture.Lines[i].second.x = 0 - picture.Lines[i].second.x;
-                   // picture.Lines[i].second.y = 0 - picture.Lines[i].second.y;
+                    // picture.Lines[i].second.y = 0 - picture.Lines[i].second.y;
                 }
             if (picture.Circles != null)
                 for (int i = 0; i < picture.Circles.Length; ++i)
@@ -384,25 +384,69 @@ namespace graphics2
                 for (int i = 0; i < picture.Curves.Length; ++i)
                 {
                     picture.Curves[i].first.x = 0 - picture.Curves[i].first.x;
-                   // picture.Curves[i].first.y = 0 - picture.Curves[i].first.y;
+                    // picture.Curves[i].first.y = 0 - picture.Curves[i].first.y;
                     picture.Curves[i].second.x = 0 - picture.Curves[i].second.x;
-                   // picture.Curves[i].second.y = 0 - picture.Curves[i].second.y;
+                    // picture.Curves[i].second.y = 0 - picture.Curves[i].second.y;
                     picture.Curves[i].thired.x = 0 - picture.Curves[i].thired.x;
-                   // picture.Curves[i].thired.y = 0 - picture.Curves[i].thired.y;
+                    // picture.Curves[i].thired.y = 0 - picture.Curves[i].thired.y;
                     picture.Curves[i].fourth.x = 0 - picture.Curves[i].fourth.x;
-                   // picture.Curves[i].fourth.y = 0 - picture.Curves[i].fourth.y;
+                    // picture.Curves[i].fourth.y = 0 - picture.Curves[i].fourth.y;
                 }
             if (picture.Poligon != null)
                 for (int i = 0; i < picture.Poligon.Length; ++i)
                 {
                     picture.Poligon[i].center.x = 0 - picture.Poligon[i].center.x;
-                   // picture.Poligon[i].center.y = 0 - picture.Poligon[i].center.y;
+                    // picture.Poligon[i].center.y = 0 - picture.Poligon[i].center.y;
                     picture.Poligon[i].radius.x = 0 - picture.Poligon[i].radius.x;
-                   // picture.Poligon[i].radius.y = 0 - picture.Poligon[i].radius.y;
+                    // picture.Poligon[i].radius.y = 0 - picture.Poligon[i].radius.y;
                 }
             move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
             draw();
         }
+
+        public void shearX(double disX)
+        {
+            point refrence = centerPoint;
+            centerPoint.x = centerPoint.x + centerPoint.y * disX;
+            // centerPoint.y = 0 - centerPoint.y;
+            if (picture.Lines != null)
+                for (int i = 0; i < picture.Lines.Length; ++i)
+                {
+                    picture.Lines[i].first.x = picture.Lines[i].first.x + picture.Lines[i].first.y*disX;
+                    // picture.Lines[i].first.y = 0 - picture.Lines[i].first.y;
+                    picture.Lines[i].second.x = picture.Lines[i].second.x + picture.Lines[i].second.y * disX;
+                    // picture.Lines[i].second.y = 0 - picture.Lines[i].second.y;
+                }
+            if (picture.Circles != null)
+                for (int i = 0; i < picture.Circles.Length; ++i)
+                {
+                    picture.Circles[i].center.x = picture.Circles[i].center.x + picture.Circles[i].center.y*disX;
+                    //picture.Circles[i].center.y = 0 - picture.Circles[i].center.y;
+                }
+            if (picture.Curves != null)
+                for (int i = 0; i < picture.Curves.Length; ++i)
+                {
+                    picture.Curves[i].first.x = picture.Curves[i].first.x+ picture.Curves[i].first.y*disX;
+                    // picture.Curves[i].first.y = 0 - picture.Curves[i].first.y;
+                    picture.Curves[i].second.x = picture.Curves[i].second.x + picture.Curves[i].second.y*disX;
+                    // picture.Curves[i].second.y = 0 - picture.Curves[i].second.y;
+                    picture.Curves[i].thired.x = picture.Curves[i].thired.x + picture.Curves[i].thired.y*disX;
+                    // picture.Curves[i].thired.y = 0 - picture.Curves[i].thired.y;
+                    picture.Curves[i].fourth.x = picture.Curves[i].fourth.x + picture.Curves[i].fourth.y*disX;
+                    // picture.Curves[i].fourth.y = 0 - picture.Curves[i].fourth.y;
+                }
+            if (picture.Poligon != null)
+                for (int i = 0; i < picture.Poligon.Length; ++i)
+                {
+                    picture.Poligon[i].center.x = picture.Poligon[i].center.x + picture.Poligon[i].center.y*disX;
+                    // picture.Poligon[i].center.y = 0 - picture.Poligon[i].center.y;
+                    picture.Poligon[i].radius.x = picture.Poligon[i].radius.x + picture.Poligon[i].radius.y*disX;
+                    // picture.Poligon[i].radius.y = 0 - picture.Poligon[i].radius.y;
+                }
+            move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
+            draw();
+        }
+
         public void scale(int newX,int newY)
         {
             PictureJson tranform = new PictureJson(picture);
@@ -492,7 +536,9 @@ namespace graphics2
                 }
                 //rotate(e.Location.X, e.Location.Y, 0, 0);
                 if (action == 3) { }
-                    //scale(e.Location.X, e.Location.Y);
+                //scale(e.Location.X, e.Location.Y);
+                if (action == 5)
+                    shearX(e.Location.X - MouseDownLocation.X);
             }
         }
 
@@ -502,7 +548,7 @@ namespace graphics2
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
             {
                 if (action == 1) 
-                 move(centerPoint.x, centerPoint.y, MouseDownLocation.X, MouseDownLocation.Y);
+                 move(centerPoint.x, centerPoint.y, e.Location.X, e.Location.Y);
                 if (action == 2)
                //     rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Atan2(e.Location.Y- centerPoint.y, e.Location.X- centerPoint.x) * (180 / Math.PI));
                    // rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y);
