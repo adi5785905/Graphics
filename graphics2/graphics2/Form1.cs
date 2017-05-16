@@ -31,6 +31,7 @@ namespace graphics2
         public double baziaFactor = 0.0001;
         bool pressed = false;
         point centerPoint;
+        bool scaleOut = false; //if true then it will scale out. false it will scale in.
         public Form1()
         {
             InitializeComponent();
@@ -526,7 +527,13 @@ namespace graphics2
         {
             PictureJson tranform = new PictureJson(picture);
             point refrence = centerPoint;
-            double scaleRatio = 1.2;
+            double scaleRatio = 1.0;
+
+            if (action == 3){
+                scaleRatio = 1.2;
+            }else if (action == 10){
+                scaleRatio = 0.8;
+            }
 
             tranform = moveToZero(tranform);
 
@@ -590,9 +597,12 @@ namespace graphics2
             {
                 MouseDownLocation = e.Location;
                 pressed = true;
-
-                if (action == 3)
-                    scale(e.Location.X, e.Location.Y);
+               
+                //scale in
+                if (action == 3)  { scale(e.Location.X, e.Location.Y);}
+               
+                //scale out
+                if (action == 10) { scale(e.Location.X, e.Location.Y); }
             }
         }
 
@@ -680,6 +690,11 @@ namespace graphics2
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
             if (radioButton9.AutoCheck) action = 9;
+        }
+
+        private void radioButton10_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton10.AutoCheck) action = 10;
         }
 
         //Distance
