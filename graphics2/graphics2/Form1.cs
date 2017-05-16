@@ -40,7 +40,8 @@ namespace graphics2
         {
             base.OnLoad(e);
             drawFrame();
-            createTemp();
+            //createTemp();
+            OpenFile();
             centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
             radioButton1.Text = "Move";
             radioButton2.Text = "Rotate";
@@ -101,6 +102,22 @@ namespace graphics2
 
         public void OpenFile()
         {
+            /*
+            try
+            {
+                string st = File.ReadAllText("JsonFile");
+                Console.WriteLine(st);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The picture file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+            
+            Console.Read();
+            */
+
+            
             try
             {   // Open the text file using a stream reader.
                 using (StreamReader sr = new StreamReader("JsonFile.txt"))
@@ -115,6 +132,7 @@ namespace graphics2
                 Console.WriteLine("The picture file could not be read:");
                 Console.WriteLine(e.Message);
             }
+            
 
             //try
             //{   // Open the text file using a stream reader.
