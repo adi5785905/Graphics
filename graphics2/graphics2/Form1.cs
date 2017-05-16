@@ -244,18 +244,288 @@ namespace graphics2
                 }
             return pic;
         }
+        public PictureJson setValueToPic(PictureJson pic, double calculateX, double calculateY)
+        {
+            centerPoint.x = calculateX;
+            centerPoint.y = calculateY;
+            if (pic.Lines != null)
+                for (int i = 0; i < pic.Lines.Length; ++i)
+                {
+
+                    pic.Lines[i].first.x = calculateX;
+                    pic.Lines[i].first.y = calculateY;
+                    pic.Lines[i].second.x = calculateX;
+                    pic.Lines[i].second.y = calculateY;
+                }
+            if (pic.Circles != null)
+                for (int i = 0; i < pic.Circles.Length; ++i)
+                {
+                    pic.Circles[i].center.x = calculateX;
+                    pic.Circles[i].center.y = calculateY;
+                }
+            if (pic.Curves != null)
+                for (int i = 0; i < pic.Curves.Length; ++i)
+                {
+                    pic.Curves[i].first.x = calculateX;
+                    pic.Curves[i].first.y = calculateY;
+                    pic.Curves[i].second.x = calculateX;
+                    pic.Curves[i].second.y = calculateY;
+                    pic.Curves[i].thired.x = calculateX;
+                    pic.Curves[i].thired.y = calculateY;
+                    pic.Curves[i].fourth.x = calculateX;
+                    pic.Curves[i].fourth.y = calculateY;
+                }
+            if (pic.Poligon != null)
+                for (int i = 0; i < pic.Poligon.Length; ++i)
+                {
+                    pic.Poligon[i].center.x = calculateX;
+                    pic.Poligon[i].center.y = calculateY;
+                    pic.Poligon[i].radius.x = calculateX;
+                    pic.Poligon[i].radius.y = calculateY;
+                }
+            return pic;
+    }
+        //public void normalize()
+        //{
+        //    point refrence = new point(centerPoint.x,centerPoint.y);
+        //    maxX = Double.MinValue;
+        //    maxY = Double.MinValue;
+        //    minX = Double.MaxValue;
+        //    minY = Double.MaxValue;
+        //    point middle;
+        //    double yValue;
+        //    double hight = panel1.Top - panel1.Bottom;
+        //    double width = panel1.Right - panel1.Left;
+        //    arr = new int[4, 4];//lines, circle,curve,poligon// minX,maxX,miny,maxY
+        //    for (int i = 0; i < 4; i++)
+        //    {
+        //        arr[0, i] = -1;
+        //        arr[1, i] = -1;
+        //        arr[2, i] = -1;
+        //        arr[3, i] = -1;
+        //    }
+        //    //find maxX maxY minX minY
+        //    getMaxAndMin();
+        //    // find one that out of bounds
+        //    if ((maxX > panel1.Height) || (minX < 0) || (maxY > panel1.Width) || (minY < 0))
+        //    {
+        //        // take the minX and set it at the left
+        //        if (arr[1, 0] > -1)
+        //        {
+        //            centerPoint.x = picture.Circles[arr[1, 0]].center.x - picture.Circles[arr[1, 0]].radius;
+        //            centerPoint.y = picture.Circles[arr[1, 0]].center.y - picture.Circles[arr[1, 0]].radius;
+
+        //        }
+        //        else if (arr[3, 0] > -1)
+        //        {
+        //            centerPoint.x = picture.Poligon[arr[3, 0]].center.x - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
+        //            centerPoint.y = picture.Poligon[arr[3, 0]].center.y - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
+        //        }
+        //        else
+        //        {
+        //            if (arr[0, 0] > -1)
+        //            {
+        //                if (picture.Lines[arr[0, 0]].first.x == minX)
+        //                {
+        //                    centerPoint.x = picture.Lines[arr[0, 0]].first.x;
+        //                    centerPoint.y = picture.Lines[arr[0, 0]].first.y;
+        //                }
+        //                else
+        //                {
+        //                    centerPoint.x = picture.Lines[arr[0, 0]].second.x;
+        //                    centerPoint.y = picture.Lines[arr[0, 0]].second.y;
+        //                }
+        //            }
+        //            else if (arr[2, 0] > -1)
+        //            {
+        //                if (picture.Curves[arr[2, 0]].first.x == minX)
+        //                {
+        //                    centerPoint.x = picture.Curves[arr[2, 0]].first.x;
+        //                    centerPoint.y = picture.Curves[arr[2, 0]].first.y;
+        //                }
+        //                else if (picture.Curves[arr[2, 0]].second.x == minX)
+        //                {
+        //                    centerPoint.x = picture.Curves[arr[2, 0]].second.x;
+        //                    centerPoint.y = picture.Curves[arr[2, 0]].second.y;
+        //                }
+        //                else if (picture.Curves[arr[2, 0]].thired.x == minX)
+        //                {
+        //                    centerPoint.x = picture.Curves[arr[2, 0]].thired.x;
+        //                    centerPoint.y = picture.Curves[arr[2, 0]].thired.y;
+        //                }
+        //                else if (picture.Curves[arr[2, 0]].fourth.x == minX)
+        //                {
+        //                    centerPoint.x = picture.Curves[arr[2, 0]].fourth.x;
+        //                    centerPoint.y = picture.Curves[arr[2, 0]].fourth.y;
+        //                }
+        //            }
+        //        }
+        //        middle = new point((maxX - minX)/2+minX, (maxY - minY)/2+minY);
+        //        yValue = ((centerPoint.y - minY) / (maxY - minY)) * (hight);
+        //        double addedX = 0 - centerPoint.x;
+        //        double addedY = yValue - centerPoint.y;
+        //        refrence.x += addedX;
+        //        refrence.y += addedY;
+        //        addValueToPictureJson(picture, addedX, addedY);
+        //        addedX = 0;
+        //        addedY = middle.y - (hight / 2);
+        //        refrence.x += addedX;
+        //        refrence.y += addedY;
+        //        addValueToPictureJson(picture, addedX, addedY);
+        //        centerPoint.x = refrence.x;
+        //        centerPoint.y = refrence.y;
+                
+                
+        //        if (minY < 0)
+        //        {
+        //            refrence.y += 0 - minY;
+        //            addValueToPictureJson(picture, 0, 0 - minY);
+                    
+        //        }
+        //        if (minX < 0)
+        //        {
+        //            refrence.x += 0 - minX;
+        //            addValueToPictureJson(picture, 0 - minX, 0);
+                    
+        //        }
+        //        if((maxY-minY < panel1.Height) && (maxX-minX < panel1.Width))
+        //        {
+        //            refrence.x += centerPoint.x-(maxX - minX) / 2 + minX;
+        //            refrence.y += centerPoint.y-(maxY - minY) / 2 + minY;
+        //            move(centerPoint.x, centerPoint.y, (maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY);
+        //        }
+        //        //make the rest smaller until all points are inbound
+        //        while ((maxY > panel1.Height) ||  (maxX > panel1.Width) )
+        //        { 
+        //        //PictureJson tranform = new PictureJson(picture);
+                
+        //        double scaleRatio = 0.8;
+        //            picture = moveToZero(picture);
+        //            centerPoint.x *= scaleRatio;
+        //            centerPoint.y *= scaleRatio;
+        //            refrence.x *= scaleRatio;
+        //            refrence.y *= scaleRatio;
+        //        if (picture.Lines != null)
+        //        {
+        //            for (int i = 0; i < picture.Lines.Length; ++i)
+        //            {
+        //                    picture.Lines[i].first.x = picture.Lines[i].first.x * scaleRatio;
+        //                    picture.Lines[i].second.x = picture.Lines[i].second.x * scaleRatio;
+        //                    picture.Lines[i].first.y = picture.Lines[i].first.y * scaleRatio;
+        //                    picture.Lines[i].second.y = picture.Lines[i].second.y * scaleRatio;
+        //            }
+        //        }
+        //        if (picture.Circles != null)
+        //            for (int i = 0; i < picture.Circles.Length; ++i)
+        //            {
+        //                picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
+        //                picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
+        //                picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
+        //            }
+        //        if (picture.Curves != null)
+        //            for (int i = 0; i < picture.Curves.Length; ++i)
+        //            {
+        //                //need to check - had no curves
+        //                picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
+        //                picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
+        //                picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
+        //                picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
+        //                picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
+        //                picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
+        //                picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
+        //                picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
+        //            }
+        //        if (picture.Poligon != null)
+        //            for (int i = 0; i < picture.Poligon.Length; ++i)
+        //            {
+        //                picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
+        //                picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
+        //                picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
+        //                picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
+        //            }
+                    
+        //            if (arr[1, 0] > -1)
+        //            {
+        //                centerPoint.x = picture.Circles[arr[1, 0]].center.x - picture.Circles[arr[1, 0]].radius;
+        //                centerPoint.y = picture.Circles[arr[1, 0]].center.y - picture.Circles[arr[1, 0]].radius;
+
+        //            }
+        //            else if (arr[3, 0] > -1)
+        //            {
+        //                centerPoint.x = picture.Poligon[arr[3, 0]].center.x - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
+        //                centerPoint.y = picture.Poligon[arr[3, 0]].center.y - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
+        //            }
+        //            else
+        //            {
+        //                if (arr[0, 0] > -1)
+        //                {
+        //                    if (picture.Lines[arr[0, 0]].first.x < picture.Lines[arr[0, 0]].second.x)
+        //                    {
+        //                        centerPoint.x = picture.Lines[arr[0, 0]].first.x;
+        //                        centerPoint.y = picture.Lines[arr[0, 0]].first.y;
+        //                    }
+        //                    else
+        //                    {
+        //                        centerPoint.x = picture.Lines[arr[0, 0]].second.x;
+        //                        centerPoint.y = picture.Lines[arr[0, 0]].second.y;
+        //                    }
+        //                }
+        //                else if (arr[2, 0] > -1)
+        //                {
+        //                    if ((picture.Curves[arr[2, 1]].first.x < picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].first.x < picture.Curves[arr[2, 1]].thired.x) && (picture.Curves[arr[2, 1]].first.x < picture.Curves[arr[2, 1]].fourth.x))
+        //                    {
+        //                        centerPoint.x = picture.Curves[arr[2, 1]].first.x;
+        //                        centerPoint.y = picture.Curves[arr[2, 1]].first.y;
+        //                    }
+        //                    else if ((picture.Curves[arr[2, 1]].second.x < picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].second.x < picture.Curves[arr[2, 1]].thired.x) && (picture.Curves[arr[2, 1]].second.x < picture.Curves[arr[2, 1]].fourth.x))
+        //                    {
+        //                        centerPoint.x = picture.Curves[arr[2, 1]].second.x;
+        //                        centerPoint.y = picture.Curves[arr[2, 1]].second.y;
+        //                    }
+        //                    else if ((picture.Curves[arr[2, 1]].thired.x < picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].thired.x < picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].thired.x < picture.Curves[arr[2, 1]].fourth.x))
+        //                    {
+        //                        centerPoint.x = picture.Curves[arr[2, 1]].thired.x;
+        //                        centerPoint.y = picture.Curves[arr[2, 1]].thired.y;
+        //                    }
+        //                    else if ((picture.Curves[arr[2, 1]].fourth.x < picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].fourth.x < picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].fourth.x < picture.Curves[arr[2, 1]].thired.x))
+        //                    {
+        //                        centerPoint.x = picture.Curves[arr[2, 1]].fourth.x;
+        //                        centerPoint.y = picture.Curves[arr[2, 1]].fourth.y;
+        //                    }
+        //                }
+        //            }
+        //            //middle = new point(maxx - minx, maxy - miny);
+        //            double yvalue = ((centerPoint.y - minY) / 2 + minY);
+        //            double addedx = 0 - centerPoint.x;
+        //            double addedy = yvalue - centerPoint.y;
+        //            refrence.x += addedx;
+        //            refrence.y += addedy;
+        //            addValueToPictureJson(picture, addedx, addedy);
+                    
+        //           // move(centerPoint.x, centerPoint.y,0,0);
+        //            if (minY < 0)
+        //            {
+        //                refrence.y += 0 - minY;
+        //                addValueToPictureJson(picture, 0, 0 - minY);
+                       
+        //            }
+        //            if (minX < 0)
+        //            {
+        //                refrence.x += 0 - minX;
+        //                addValueToPictureJson(picture, 0 - minX, 0);
+                        
+        //            }
+        //        } 
+        //        }
+            
+        //    centerPoint = refrence;
+        //    centerPoint.x = minX;
+        //    centerPoint.y = minY;
+        //    draw();
+        //}
 
         public void normalize()
         {
-            point refrence = centerPoint;
-            maxX = Double.MinValue;
-            maxY = Double.MinValue;
-            minX = Double.MaxValue;
-            minY = Double.MaxValue;
-            point middle;
-            double yValue;
-            double hight = panel1.Top - panel1.Bottom;
-            double width = panel1.Right - panel1.Left;
             arr = new int[4, 4];//lines, circle,curve,poligon// minX,maxX,miny,maxY
             for (int i = 0; i < 4; i++)
             {
@@ -264,7 +534,127 @@ namespace graphics2
                 arr[2, i] = -1;
                 arr[3, i] = -1;
             }
-            //find maxX maxY minX minY
+            getMaxAndMin();
+            if(maxX - minX > panel1.Width || maxY - minY > panel1.Height)
+            {
+                if (maxX - minX > maxY - minY)
+                {
+                    PictureJson tranform = new PictureJson(picture);
+                    point refrence = centerPoint;
+                    while (maxX-minX>panel1.Width)
+                    {                      
+                        double scaleRatio = 0.9;
+
+                        tranform = moveToZero(tranform);
+
+                        if (tranform.Lines != null)
+                        {
+                            for (int i = 0; i < tranform.Lines.Length; ++i)
+                            {
+                                tranform.Lines[i].first.x = tranform.Lines[i].first.x * scaleRatio;
+                                tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
+                                tranform.Lines[i].first.y = tranform.Lines[i].first.y * scaleRatio;
+                                tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
+                            }
+                        }
+                        if (picture.Circles != null)
+                            for (int i = 0; i < picture.Circles.Length; ++i)
+                            {
+                                picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
+                                picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
+                                picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
+                            }
+                        if (picture.Curves != null)
+                            for (int i = 0; i < picture.Curves.Length; ++i)
+                            {
+                                //need to check - had no curves
+                                picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
+                                picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
+                                picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
+                                picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
+                                picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
+                                picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
+                                picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
+                                picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
+                            }
+                        if (picture.Poligon != null)
+                            for (int i = 0; i < picture.Poligon.Length; ++i)
+                            {
+                                picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
+                                picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
+                                picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
+                                picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
+                            }
+
+                        move(centerPoint.x, centerPoint.y, (maxX - minX) / 2,(maxY - minY) / 2);
+                    }
+                }
+                else
+                {
+                    PictureJson tranform = new PictureJson(picture);
+                    point refrence = centerPoint;
+                    while (maxY - minY > panel1.Height)
+                    {
+                        double scaleRatio = 0.9;
+
+                        tranform = moveToZero(tranform);
+
+                        if (tranform.Lines != null)
+                        {
+                            for (int i = 0; i < tranform.Lines.Length; ++i)
+                            {
+                                tranform.Lines[i].first.x = tranform.Lines[i].first.x * scaleRatio;
+                                tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
+                                tranform.Lines[i].first.y = tranform.Lines[i].first.y * scaleRatio;
+                                tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
+                            }
+                        }
+                        if (picture.Circles != null)
+                            for (int i = 0; i < picture.Circles.Length; ++i)
+                            {
+                                picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
+                                picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
+                                picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
+                            }
+                        if (picture.Curves != null)
+                            for (int i = 0; i < picture.Curves.Length; ++i)
+                            {
+                                //need to check - had no curves
+                                picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
+                                picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
+                                picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
+                                picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
+                                picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
+                                picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
+                                picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
+                                picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
+                            }
+                        if (picture.Poligon != null)
+                            for (int i = 0; i < picture.Poligon.Length; ++i)
+                            {
+                                picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
+                                picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
+                                picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
+                                picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
+                            }
+
+                        move(centerPoint.x, centerPoint.y, (maxX - minX) / 2, (maxY - minY) / 2);
+                    }
+                }
+            }
+            else
+            {
+                centerPoint.x = (maxX - minX) / 2;
+                centerPoint.y = (maxY - minY) / 2;
+                draw();
+            }
+            centerPoint.x = (maxX - minX) / 2;
+            centerPoint.y = (maxY - minY) / 2;
+            draw();
+
+        }
+        public void getMaxAndMin()
+        {
             if (picture.Lines != null)
                 for (int i = 0; i < picture.Lines.Length; ++i)
                 {
@@ -289,173 +679,7 @@ namespace graphics2
                 {
                     isMaxorMinWithRadius(picture.Poligon[i].center.x, picture.Poligon[i].center.y, getRadius(picture.Poligon[i].center.x, picture.Poligon[i].center.y, picture.Poligon[i].radius.x, picture.Poligon[i].radius.y), i, 3);
                 }
-            // find one that out of bounds
-            if ((maxX > panel1.Height) || (minX < 0) || (maxY > panel1.Width) || (minY < 0))
-            {
-                // take the minX and set it at the top
-                if (arr[1, 0] > -1)
-                {
-                    centerPoint.x = picture.Circles[arr[1, 0]].center.x - picture.Circles[arr[1, 0]].radius;
-                    centerPoint.y = picture.Circles[arr[1, 0]].center.y - picture.Circles[arr[1, 0]].radius;
-
-                }
-                else if (arr[3, 0] > -1)
-                {
-                    centerPoint.x = picture.Poligon[arr[3, 0]].center.x - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
-                    centerPoint.y = picture.Poligon[arr[3, 0]].center.y - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
-                }
-                else
-                {
-                    if (arr[0, 0] > -1)
-                    {
-                        if (picture.Lines[arr[0, 0]].first.x == minX)
-                        {
-                            centerPoint.x = picture.Lines[arr[0, 0]].first.x;
-                            centerPoint.y = picture.Lines[arr[0, 0]].first.y;
-                        }
-                        else
-                        {
-                            centerPoint.x = picture.Lines[arr[0, 0]].second.x;
-                            centerPoint.y = picture.Lines[arr[0, 0]].second.y;
-                        }
-                    }
-                    else if (arr[2, 0] > -1)
-                    {
-                        if (picture.Curves[arr[2, 0]].first.x == minX)
-                        {
-                            centerPoint.x = picture.Curves[arr[2, 0]].first.x;
-                            centerPoint.y = picture.Curves[arr[2, 0]].first.y;
-                        }
-                        else if (picture.Curves[arr[2, 0]].second.x == minX)
-                        {
-                            centerPoint.x = picture.Curves[arr[2, 0]].second.x;
-                            centerPoint.y = picture.Curves[arr[2, 0]].second.y;
-                        }
-                        else if (picture.Curves[arr[2, 0]].thired.x == minX)
-                        {
-                            centerPoint.x = picture.Curves[arr[2, 0]].thired.x;
-                            centerPoint.y = picture.Curves[arr[2, 0]].thired.y;
-                        }
-                        else if (picture.Curves[arr[2, 0]].fourth.x == minX)
-                        {
-                            centerPoint.x = picture.Curves[arr[2, 0]].fourth.x;
-                            centerPoint.y = picture.Curves[arr[2, 0]].fourth.y;
-                        }
-                    }
-                }
-                middle = new point(maxX - minX, maxY - minY);
-                yValue = ((centerPoint.y - minY) / (maxY - minY)) * (hight);
-                double addedX = 0 - centerPoint.x;
-                double addedY = yValue - centerPoint.y;
-                refrence.x += addedX;
-                refrence.y += addedY;
-                addValueToPictureJson(picture, addedX, addedY);
-                addedX = 0;
-                addedY = middle.y - (hight / 2);
-                refrence.x += addedX;
-                refrence.y += addedY;
-                addValueToPictureJson(picture, addedX, addedY);
-                //make the rest smaller until all points are inbound
-                while (maxX > width)
-                {
-                    point saveCenter = centerPoint;
-                    point set = middle;
-                    refrence.x += 0 - centerPoint.x;
-                    refrence.y += 0 - centerPoint.y;
-                    set.x += 0 - centerPoint.x;
-                    set.y += 0 - centerPoint.y;
-                    moveToZero(picture);
-                    double calculateX = 0.9;
-                    double calculateY = 0.9;
-                    centerPoint.x *= calculateX;
-                    centerPoint.y *= calculateY;
-                    refrence.x *= calculateX;
-                    refrence.y *= calculateY;
-                    if (picture.Lines != null)
-                        for (int i = 0; i < picture.Lines.Length; ++i)
-                        {
-
-                            picture.Lines[i].first.x *= calculateX;
-                            picture.Lines[i].first.y *= calculateY;
-                            picture.Lines[i].second.x *= calculateX;
-                            picture.Lines[i].second.y *= calculateY;
-                        }
-                    if (picture.Circles != null)
-                        for (int i = 0; i < picture.Circles.Length; ++i)
-                        {
-                            picture.Circles[i].center.x *= calculateX;
-                            picture.Circles[i].center.y *= calculateY;
-                        }
-                    if (picture.Curves != null)
-                        for (int i = 0; i < picture.Curves.Length; ++i)
-                        {
-                            picture.Curves[i].first.x *= calculateX;
-                            picture.Curves[i].first.y *= calculateY;
-                            picture.Curves[i].second.x *= calculateX;
-                            picture.Curves[i].second.y *= calculateY;
-                            picture.Curves[i].thired.x *= calculateX;
-                            picture.Curves[i].thired.y *= calculateY;
-                            picture.Curves[i].fourth.x *= calculateX;
-                            picture.Curves[i].fourth.y *= calculateY;
-                        }
-                    if (picture.Poligon != null)
-                        for (int i = 0; i < picture.Poligon.Length; ++i)
-                        {
-                            picture.Poligon[i].center.x *= calculateX;
-                            picture.Poligon[i].center.y *= calculateY;
-                            picture.Poligon[i].radius.x *= calculateX;
-                            picture.Poligon[i].radius.y *= calculateY;
-                        }
-                    move(centerPoint.x, centerPoint.y, saveCenter.x, saveCenter.y);
-                    if (arr[1, 1] > -1)
-                    {
-                        maxX = picture.Circles[arr[1, 1]].center.x + picture.Circles[arr[1, 1]].radius;
-
-                    }
-                    else if (arr[3, 1] > -1)
-                    {
-                        maxX = picture.Poligon[arr[3, 1]].center.x + getRadius(picture.Poligon[arr[3, 1]].center.x, picture.Poligon[arr[3, 1]].center.y, picture.Poligon[arr[3, 1]].radius.x, picture.Poligon[arr[3, 1]].radius.y);
-                    }
-                    else
-                    {
-                        if (arr[0, 1] > -1)
-                        {
-                            if (picture.Lines[arr[0, 1]].first.x > picture.Lines[arr[0, 1]].second.x)
-                            {
-                                maxX = picture.Lines[arr[0, 1]].first.x;
-
-                            }
-                            else
-                            {
-                                maxX = picture.Lines[arr[0, 1]].second.x;
-                            }
-                        }
-                        else if (arr[2, 1] > -1)
-                        {
-                            if ((picture.Curves[arr[2, 1]].first.x > picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].first.x > picture.Curves[arr[2, 1]].thired.x) && (picture.Curves[arr[2, 1]].first.x > picture.Curves[arr[2, 1]].fourth.x))
-                            {
-                                maxX = picture.Curves[arr[2, 1]].first.x;
-                            }
-                            else if ((picture.Curves[arr[2, 1]].second.x > picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].second.x > picture.Curves[arr[2, 1]].thired.x) && (picture.Curves[arr[2, 1]].second.x > picture.Curves[arr[2, 1]].fourth.x))
-                            {
-                                maxX = picture.Curves[arr[2, 1]].second.x;
-                            }
-                            else if ((picture.Curves[arr[2, 1]].thired.x > picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].thired.x > picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].thired.x > picture.Curves[arr[2, 1]].fourth.x))
-                            {
-                                maxX = picture.Curves[arr[2, 1]].thired.x;
-                            }
-                            else if ((picture.Curves[arr[2, 1]].fourth.x > picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].fourth.x > picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].fourth.x > picture.Curves[arr[2, 1]].thired.x))
-                            {
-                                maxX = picture.Curves[arr[2, 1]].fourth.x;
-                            }
-                        }
-                    }
-                    move(centerPoint.x, centerPoint.y, set.x, set.y); 
-                }
-            }
-            draw();
         }
-
         private void isMaxorMin(double xValue, double yValue, int index , int arrLine)
         {
             if (xValue < minX)
