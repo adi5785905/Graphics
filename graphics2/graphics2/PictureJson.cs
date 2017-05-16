@@ -45,6 +45,12 @@ namespace graphics2
             x = X;
             y = Y;
         }
+
+        public point(centerPoint p)
+        {
+            x = p.x;
+            y = p.y;
+        }
     }
 
     [Serializable]
