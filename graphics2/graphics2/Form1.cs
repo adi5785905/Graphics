@@ -40,8 +40,8 @@ namespace graphics2
         {
             base.OnLoad(e);
             drawFrame();
-            //createTemp();
-            OpenFile();
+            createTemp();
+            //OpenFile();
             centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
             radioButton1.Text = "Move";
             radioButton2.Text = "Rotate";
