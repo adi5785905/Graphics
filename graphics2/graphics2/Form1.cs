@@ -1099,50 +1099,99 @@ namespace graphics2
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.AutoCheck) action = 1;
+            string instructions = "Click or drag picture to move it";
+            if (radioButton1.AutoCheck)
+            {
+                action = 1;
+                textBox1.Text = instructions;
+            }
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton2.AutoCheck) action = 2;
+            string instructions = "Drage to Rotate";
+            if (radioButton2.AutoCheck)
+            {
+                action = 2;
+                textBox1.Text = instructions;
+            }
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton3.AutoCheck) action = 3;
+            string instructions = "Click to enlarge";
+            if (radioButton3.AutoCheck)
+            {
+                action = 3;
+                textBox1.Text = instructions;
+            }
         }
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton4.AutoCheck) action = 4;
+            if (radioButton4.AutoCheck)
+            {
+                action = 4;
+                //textBox1.Text = instructions;
+            }
         }
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton5.AutoCheck) action = 5;
+            string instructions = "Drag to shear X";
+            if (radioButton5.AutoCheck)
+            {
+                action = 5;
+                textBox1.Text = instructions;
+            }
         }
 
         private void radioButton6_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton6.AutoCheck) action = 6;
+            string instructions = "Click to choose center";
+            if (radioButton6.AutoCheck)
+            {
+                action = 6;
+                textBox1.Text = instructions;
+            }
         }
 
         private void radioButton7_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton7.AutoCheck) action = 7;
+            string instructions = "Click to miror X";
+            if (radioButton7.AutoCheck)
+            {
+                action = 7;
+                textBox1.Text = instructions;
+            }
         }
         private void radioButton8_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton8.AutoCheck) action = 8;
+            string instructions = "Click to miror Y";
+            if (radioButton8.AutoCheck)
+            {
+                action = 8;
+                textBox1.Text = instructions;
+            }
         }
         private void radioButton9_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton9.AutoCheck) action = 9;
+            string instructions = "Drag to shear y";
+            if (radioButton9.AutoCheck)
+            {
+                action = 9;
+                textBox1.Text = instructions;
+            }
         }
 
         private void radioButton10_CheckedChanged_1(object sender, EventArgs e)
         {
-            if (radioButton10.AutoCheck) action = 10;
+            string instructions = "Click to shrink";
+            if (radioButton10.AutoCheck)
+            {
+                action = 10;
+                textBox1.Text = instructions;
+            }
         }
 
         //Distance
