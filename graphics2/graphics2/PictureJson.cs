@@ -10,12 +10,18 @@ namespace graphics2
     public class PictureJson 
     {
        // public point[] Points;
-        public line[] Lines;
-        public circle[] Circles;
-        public curve[] Curves;
-        public poligon[] Poligon;
+        public line[] Lines { get; set; }
+        public circle[] Circles { get; set; }
+        public curve[] Curves { get; set; }
+        public poligon[] Poligon { get; set; }
 
-        public PictureJson(int numPoints, int numLines, int numCircles, int numCurves, int numPoli)
+        //Dont earase this deafult constructor 
+        public PictureJson()
+        {
+            Console.Write("STUFF");
+        }
+
+        public PictureJson(int numPoints,int numLines, int numCircles, int numCurves, int numPoli)
         {
             //Points = new point[numPoints];
             Lines = new line[numLines];
@@ -53,7 +59,7 @@ namespace graphics2
         public double x;
         public double y;
 
-        public centerPoint(float X, float Y)
+        public centerPoint(int X, int Y)
         {
             x = X;
             y = Y;

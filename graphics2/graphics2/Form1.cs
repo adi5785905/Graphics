@@ -41,8 +41,8 @@ namespace graphics2
         {
             base.OnLoad(e);
             drawFrame();
-            createTemp();
-            //OpenFile();
+            //createTemp();
+            OpenFile();
             centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
             radioButton1.Text = "Move";
             radioButton2.Text = "Rotate";
@@ -119,14 +119,18 @@ namespace graphics2
             Console.Read();
             */
 
-            
             try
             {   // Open the text file using a stream reader.
-                using (StreamReader sr = new StreamReader("JsonFile.txt"))
+                using (StreamReader sr = new StreamReader("JsonFile.json"))
                 {
                     // Read the stream to a string, and write the string to the console.
                     String line = sr.ReadToEnd();
-                    picture = parseJson(line,"PictureJson");
+                    //Console.Write(line);
+
+                    JToken root = JObject.Parse(line);
+                    JToken pictureJson = root["pictureJson"];
+                    //PictureJson deserializedUser = JsonConvert.DeserializeObject<PictureJson>(pictureJson.ToString());
+                    picture = JsonConvert.DeserializeObject<PictureJson>(pictureJson.ToString()); //creating PictureJson obj and setting it in the var
                 }
             }
             catch (Exception e)
@@ -134,24 +138,9 @@ namespace graphics2
                 Console.WriteLine("The picture file could not be read:");
                 Console.WriteLine(e.Message);
             }
-            
-
-            //try
-            //{   // Open the text file using a stream reader.
-            //    using (StreamReader sr = new StreamReader("BackgroundFile.txt"))
-            //    {
-            //        // Read the stream to a string, and write the string to the console.
-            //        String line = sr.ReadToEnd();
-            //        picture = parseJson(line,"PictureJson");
-            //    }
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine("The background file could not be read:");
-            //    Console.WriteLine(e.Message);
-            //}
         }
 
+        //doesnt work
         public JObject createPictureJson(PictureJson json)
         {
             JObject jsonObject = (JObject)JToken.FromObject(json);
@@ -186,10 +175,10 @@ namespace graphics2
         }
 
         public PictureJson parseJson(string jsonString, string name)
-        {
+        {  
             var root = JObject.Parse(jsonString);
             var serializer = new JsonSerializer();
-            PictureJson userObject = serializer.Deserialize<PictureJson>(root[name].CreateReader());
+            PictureJson userObject = serializer.Deserialize<PictureJson>(root.CreateReader());
             return userObject;
         }
         
