@@ -43,6 +43,7 @@ namespace graphics2
 
         protected override void OnLoad(EventArgs e)
         {
+            this.Size = new Size(1100, 650);
             base.OnLoad(e);
             drawFrame();
             createTemp();
@@ -57,11 +58,11 @@ namespace graphics2
             radioButton7.Text = "Mirror X";
             radioButton8.Text = "Mirror Y";
             draw();
-            //comboBox1.Items.AddRange(new object[] {"Black",
-                        //"Green",
-                        //"Red",
-                        //"Blue",
-                        //"Yellow"});
+            comboBox1.Items.AddRange(new object[] {"Black",
+                        "Green",
+                        "Red",
+                        "Blue",
+                        "Yellow"});
         }
 
         private void drawFrame()
@@ -1330,6 +1331,30 @@ namespace graphics2
             normalize();
         }
 
-
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            color = Color.FromName(comboBox1.SelectedItem.ToString());
+            if (color == Color.Black)
+            {
+                aBrush = (Brush)Brushes.Black;
+            }
+            else if (color == Color.Blue)
+            {
+                aBrush = (Brush)Brushes.Blue;
+            }
+            else if (color == Color.Red)
+            {
+                aBrush = (Brush)Brushes.Red;
+            }
+            else if (color == Color.Yellow)
+            {
+                aBrush = (Brush)Brushes.Yellow;
+            }
+            else if (color == Color.Green)
+            {
+                aBrush = (Brush)Brushes.Green;
+            }
+            draw();
+        }
     }
 }
