@@ -42,7 +42,6 @@
             this.radioButton7 = new System.Windows.Forms.RadioButton();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
@@ -228,20 +227,9 @@
             this.button2.Text = "Save";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(35, 911);
-            this.button3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(203, 67);
-            this.button3.TabIndex = 11;
-            this.button3.Text = "Normalize";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.button3_MouseClick);
-            // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(24, 1025);
+            this.textBox1.Location = new System.Drawing.Point(22, 884);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
@@ -251,7 +239,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(22, 1311);
+            this.comboBox1.Location = new System.Drawing.Point(22, 1174);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(231, 39);
             this.comboBox1.TabIndex = 13;
@@ -265,7 +253,6 @@
             this.ClientSize = new System.Drawing.Size(2899, 1504);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
@@ -296,7 +283,6 @@
         private System.Windows.Forms.RadioButton radioButton9;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.RadioButton radioButton10;
         private System.Windows.Forms.ComboBox comboBox1;

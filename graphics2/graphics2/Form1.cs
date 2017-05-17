@@ -28,7 +28,7 @@ namespace graphics2
         Brush frameBrush = (Brush)Brushes.Black;
         int action = 1; // 1= move
         double PI = 3.14159265;
-        public double baziaFactor = 0.0001;
+        public double baziaFactor = 0.00001;
         bool pressed = false;
         point centerPoint;
         double maxX;
@@ -48,7 +48,22 @@ namespace graphics2
             drawFrame();
             //createTemp();
             OpenFile();
-            centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
+            if (picture.Lines != null)
+            {
+                centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
+            }
+            else if (picture.Circles != null)
+            {
+                centerPoint = new point(picture.Circles[0].center);
+            }
+            else if (picture.Curves != null)
+            {
+                centerPoint = new point(picture.Curves[0].first.x, picture.Curves[0].first.y);
+            }
+            else if (picture.Poligon != null)
+            {
+                centerPoint = new point(picture.Poligon[0].center);
+            }
             radioButton1.Text = "Move";
             radioButton2.Text = "Rotate";
             radioButton3.Text = "Scale out";
@@ -290,374 +305,6 @@ namespace graphics2
                 }
             return pic;
     }
-        //public void normalize()
-        //{
-        //    point refrence = new point(centerPoint.x,centerPoint.y);
-        //    maxX = Double.MinValue;
-        //    maxY = Double.MinValue;
-        //    minX = Double.MaxValue;
-        //    minY = Double.MaxValue;
-        //    point middle;
-        //    double yValue;
-        //    double hight = panel1.Top - panel1.Bottom;
-        //    double width = panel1.Right - panel1.Left;
-        //    arr = new int[4, 4];//lines, circle,curve,poligon// minX,maxX,miny,maxY
-        //    for (int i = 0; i < 4; i++)
-        //    {
-        //        arr[0, i] = -1;
-        //        arr[1, i] = -1;
-        //        arr[2, i] = -1;
-        //        arr[3, i] = -1;
-        //    }
-        //    //find maxX maxY minX minY
-        //    getMaxAndMin();
-        //    // find one that out of bounds
-        //    if ((maxX > panel1.Height) || (minX < 0) || (maxY > panel1.Width) || (minY < 0))
-        //    {
-        //        // take the minX and set it at the left
-        //        if (arr[1, 0] > -1)
-        //        {
-        //            centerPoint.x = picture.Circles[arr[1, 0]].center.x - picture.Circles[arr[1, 0]].radius;
-        //            centerPoint.y = picture.Circles[arr[1, 0]].center.y - picture.Circles[arr[1, 0]].radius;
-
-        //        }
-        //        else if (arr[3, 0] > -1)
-        //        {
-        //            centerPoint.x = picture.Poligon[arr[3, 0]].center.x - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
-        //            centerPoint.y = picture.Poligon[arr[3, 0]].center.y - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
-        //        }
-        //        else
-        //        {
-        //            if (arr[0, 0] > -1)
-        //            {
-        //                if (picture.Lines[arr[0, 0]].first.x == minX)
-        //                {
-        //                    centerPoint.x = picture.Lines[arr[0, 0]].first.x;
-        //                    centerPoint.y = picture.Lines[arr[0, 0]].first.y;
-        //                }
-        //                else
-        //                {
-        //                    centerPoint.x = picture.Lines[arr[0, 0]].second.x;
-        //                    centerPoint.y = picture.Lines[arr[0, 0]].second.y;
-        //                }
-        //            }
-        //            else if (arr[2, 0] > -1)
-        //            {
-        //                if (picture.Curves[arr[2, 0]].first.x == minX)
-        //                {
-        //                    centerPoint.x = picture.Curves[arr[2, 0]].first.x;
-        //                    centerPoint.y = picture.Curves[arr[2, 0]].first.y;
-        //                }
-        //                else if (picture.Curves[arr[2, 0]].second.x == minX)
-        //                {
-        //                    centerPoint.x = picture.Curves[arr[2, 0]].second.x;
-        //                    centerPoint.y = picture.Curves[arr[2, 0]].second.y;
-        //                }
-        //                else if (picture.Curves[arr[2, 0]].thired.x == minX)
-        //                {
-        //                    centerPoint.x = picture.Curves[arr[2, 0]].thired.x;
-        //                    centerPoint.y = picture.Curves[arr[2, 0]].thired.y;
-        //                }
-        //                else if (picture.Curves[arr[2, 0]].fourth.x == minX)
-        //                {
-        //                    centerPoint.x = picture.Curves[arr[2, 0]].fourth.x;
-        //                    centerPoint.y = picture.Curves[arr[2, 0]].fourth.y;
-        //                }
-        //            }
-        //        }
-        //        middle = new point((maxX - minX)/2+minX, (maxY - minY)/2+minY);
-        //        yValue = ((centerPoint.y - minY) / (maxY - minY)) * (hight);
-        //        double addedX = 0 - centerPoint.x;
-        //        double addedY = yValue - centerPoint.y;
-        //        refrence.x += addedX;
-        //        refrence.y += addedY;
-        //        addValueToPictureJson(picture, addedX, addedY);
-        //        addedX = 0;
-        //        addedY = middle.y - (hight / 2);
-        //        refrence.x += addedX;
-        //        refrence.y += addedY;
-        //        addValueToPictureJson(picture, addedX, addedY);
-        //        centerPoint.x = refrence.x;
-        //        centerPoint.y = refrence.y;
-                
-                
-        //        if (minY < 0)
-        //        {
-        //            refrence.y += 0 - minY;
-        //            addValueToPictureJson(picture, 0, 0 - minY);
-                    
-        //        }
-        //        if (minX < 0)
-        //        {
-        //            refrence.x += 0 - minX;
-        //            addValueToPictureJson(picture, 0 - minX, 0);
-                    
-        //        }
-        //        if((maxY-minY < panel1.Height) && (maxX-minX < panel1.Width))
-        //        {
-        //            refrence.x += centerPoint.x-(maxX - minX) / 2 + minX;
-        //            refrence.y += centerPoint.y-(maxY - minY) / 2 + minY;
-        //            move(centerPoint.x, centerPoint.y, (maxX - minX) / 2 + minX, (maxY - minY) / 2 + minY);
-        //        }
-        //        //make the rest smaller until all points are inbound
-        //        while ((maxY > panel1.Height) ||  (maxX > panel1.Width) )
-        //        { 
-        //        //PictureJson tranform = new PictureJson(picture);
-                
-        //        double scaleRatio = 0.8;
-        //            picture = moveToZero(picture);
-        //            centerPoint.x *= scaleRatio;
-        //            centerPoint.y *= scaleRatio;
-        //            refrence.x *= scaleRatio;
-        //            refrence.y *= scaleRatio;
-        //        if (picture.Lines != null)
-        //        {
-        //            for (int i = 0; i < picture.Lines.Length; ++i)
-        //            {
-        //                    picture.Lines[i].first.x = picture.Lines[i].first.x * scaleRatio;
-        //                    picture.Lines[i].second.x = picture.Lines[i].second.x * scaleRatio;
-        //                    picture.Lines[i].first.y = picture.Lines[i].first.y * scaleRatio;
-        //                    picture.Lines[i].second.y = picture.Lines[i].second.y * scaleRatio;
-        //            }
-        //        }
-        //        if (picture.Circles != null)
-        //            for (int i = 0; i < picture.Circles.Length; ++i)
-        //            {
-        //                picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
-        //                picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
-        //                picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
-        //            }
-        //        if (picture.Curves != null)
-        //            for (int i = 0; i < picture.Curves.Length; ++i)
-        //            {
-        //                //need to check - had no curves
-        //                picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
-        //                picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
-        //                picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
-        //                picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
-        //                picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
-        //                picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
-        //                picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
-        //                picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
-        //            }
-        //        if (picture.Poligon != null)
-        //            for (int i = 0; i < picture.Poligon.Length; ++i)
-        //            {
-        //                picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
-        //                picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
-        //                picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
-        //                picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
-        //            }
-                    
-        //            if (arr[1, 0] > -1)
-        //            {
-        //                centerPoint.x = picture.Circles[arr[1, 0]].center.x - picture.Circles[arr[1, 0]].radius;
-        //                centerPoint.y = picture.Circles[arr[1, 0]].center.y - picture.Circles[arr[1, 0]].radius;
-
-        //            }
-        //            else if (arr[3, 0] > -1)
-        //            {
-        //                centerPoint.x = picture.Poligon[arr[3, 0]].center.x - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
-        //                centerPoint.y = picture.Poligon[arr[3, 0]].center.y - getRadius(picture.Poligon[arr[3, 0]].center.x, picture.Poligon[arr[3, 0]].center.y, picture.Poligon[arr[3, 0]].radius.x, picture.Poligon[arr[3, 0]].radius.y);
-        //            }
-        //            else
-        //            {
-        //                if (arr[0, 0] > -1)
-        //                {
-        //                    if (picture.Lines[arr[0, 0]].first.x < picture.Lines[arr[0, 0]].second.x)
-        //                    {
-        //                        centerPoint.x = picture.Lines[arr[0, 0]].first.x;
-        //                        centerPoint.y = picture.Lines[arr[0, 0]].first.y;
-        //                    }
-        //                    else
-        //                    {
-        //                        centerPoint.x = picture.Lines[arr[0, 0]].second.x;
-        //                        centerPoint.y = picture.Lines[arr[0, 0]].second.y;
-        //                    }
-        //                }
-        //                else if (arr[2, 0] > -1)
-        //                {
-        //                    if ((picture.Curves[arr[2, 1]].first.x < picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].first.x < picture.Curves[arr[2, 1]].thired.x) && (picture.Curves[arr[2, 1]].first.x < picture.Curves[arr[2, 1]].fourth.x))
-        //                    {
-        //                        centerPoint.x = picture.Curves[arr[2, 1]].first.x;
-        //                        centerPoint.y = picture.Curves[arr[2, 1]].first.y;
-        //                    }
-        //                    else if ((picture.Curves[arr[2, 1]].second.x < picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].second.x < picture.Curves[arr[2, 1]].thired.x) && (picture.Curves[arr[2, 1]].second.x < picture.Curves[arr[2, 1]].fourth.x))
-        //                    {
-        //                        centerPoint.x = picture.Curves[arr[2, 1]].second.x;
-        //                        centerPoint.y = picture.Curves[arr[2, 1]].second.y;
-        //                    }
-        //                    else if ((picture.Curves[arr[2, 1]].thired.x < picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].thired.x < picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].thired.x < picture.Curves[arr[2, 1]].fourth.x))
-        //                    {
-        //                        centerPoint.x = picture.Curves[arr[2, 1]].thired.x;
-        //                        centerPoint.y = picture.Curves[arr[2, 1]].thired.y;
-        //                    }
-        //                    else if ((picture.Curves[arr[2, 1]].fourth.x < picture.Curves[arr[2, 1]].first.x) && (picture.Curves[arr[2, 1]].fourth.x < picture.Curves[arr[2, 1]].second.x) && (picture.Curves[arr[2, 1]].fourth.x < picture.Curves[arr[2, 1]].thired.x))
-        //                    {
-        //                        centerPoint.x = picture.Curves[arr[2, 1]].fourth.x;
-        //                        centerPoint.y = picture.Curves[arr[2, 1]].fourth.y;
-        //                    }
-        //                }
-        //            }
-        //            //middle = new point(maxx - minx, maxy - miny);
-        //            double yvalue = ((centerPoint.y - minY) / 2 + minY);
-        //            double addedx = 0 - centerPoint.x;
-        //            double addedy = yvalue - centerPoint.y;
-        //            refrence.x += addedx;
-        //            refrence.y += addedy;
-        //            addValueToPictureJson(picture, addedx, addedy);
-                    
-        //           // move(centerPoint.x, centerPoint.y,0,0);
-        //            if (minY < 0)
-        //            {
-        //                refrence.y += 0 - minY;
-        //                addValueToPictureJson(picture, 0, 0 - minY);
-                       
-        //            }
-        //            if (minX < 0)
-        //            {
-        //                refrence.x += 0 - minX;
-        //                addValueToPictureJson(picture, 0 - minX, 0);
-                        
-        //            }
-        //        } 
-        //        }
-            
-        //    centerPoint = refrence;
-        //    centerPoint.x = minX;
-        //    centerPoint.y = minY;
-        //    draw();
-        //}
-
-        public void normalize()
-        {
-            arr = new int[4, 4];//lines, circle,curve,poligon// minX,maxX,miny,maxY
-            for (int i = 0; i < 4; i++)
-            {
-                arr[0, i] = -1;
-                arr[1, i] = -1;
-                arr[2, i] = -1;
-                arr[3, i] = -1;
-            }
-            getMaxAndMin();
-            if(maxX - minX > panel1.Width || maxY - minY > panel1.Height)
-            {
-                if (maxX - minX > maxY - minY)
-                {
-                    PictureJson tranform = new PictureJson(picture);
-                    point refrence = centerPoint;
-                    while (maxX-minX>panel1.Width)
-                    {                      
-                        double scaleRatio = 0.9;
-
-                        tranform = moveToZero(tranform);
-
-                        if (tranform.Lines != null)
-                        {
-                            for (int i = 0; i < tranform.Lines.Length; ++i)
-                            {
-                                tranform.Lines[i].first.x = tranform.Lines[i].first.x * scaleRatio;
-                                tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
-                                tranform.Lines[i].first.y = tranform.Lines[i].first.y * scaleRatio;
-                                tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
-                            }
-                        }
-                        if (picture.Circles != null)
-                            for (int i = 0; i < picture.Circles.Length; ++i)
-                            {
-                                picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
-                                picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
-                                picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
-                            }
-                        if (picture.Curves != null)
-                            for (int i = 0; i < picture.Curves.Length; ++i)
-                            {
-                                //need to check - had no curves
-                                picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
-                                picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
-                                picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
-                                picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
-                                picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
-                                picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
-                                picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
-                                picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
-                            }
-                        if (picture.Poligon != null)
-                            for (int i = 0; i < picture.Poligon.Length; ++i)
-                            {
-                                picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
-                                picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
-                                picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
-                                picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
-                            }
-
-                        move(centerPoint.x, centerPoint.y, (maxX - minX) / 2,(maxY - minY) / 2);
-                    }
-                }
-                else
-                {
-                    PictureJson tranform = new PictureJson(picture);
-                    point refrence = centerPoint;
-                    while (maxY - minY > panel1.Height)
-                    {
-                        double scaleRatio = 0.9;
-
-                        tranform = moveToZero(tranform);
-
-                        if (tranform.Lines != null)
-                        {
-                            for (int i = 0; i < tranform.Lines.Length; ++i)
-                            {
-                                tranform.Lines[i].first.x = tranform.Lines[i].first.x * scaleRatio;
-                                tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
-                                tranform.Lines[i].first.y = tranform.Lines[i].first.y * scaleRatio;
-                                tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
-                            }
-                        }
-                        if (picture.Circles != null)
-                            for (int i = 0; i < picture.Circles.Length; ++i)
-                            {
-                                picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
-                                picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
-                                picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
-                            }
-                        if (picture.Curves != null)
-                            for (int i = 0; i < picture.Curves.Length; ++i)
-                            {
-                                //need to check - had no curves
-                                picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
-                                picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
-                                picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
-                                picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
-                                picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
-                                picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
-                                picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
-                                picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
-                            }
-                        if (picture.Poligon != null)
-                            for (int i = 0; i < picture.Poligon.Length; ++i)
-                            {
-                                picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
-                                picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
-                                picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
-                                picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
-                            }
-
-                        move(centerPoint.x, centerPoint.y, (maxX - minX) / 2, (maxY - minY) / 2);
-                    }
-                }
-            }
-            else
-            {
-                centerPoint.x = (maxX - minX) / 2;
-                centerPoint.y = (maxY - minY) / 2;
-                draw();
-            }
-            centerPoint.x = (maxX - minX) / 2;
-            centerPoint.y = (maxY - minY) / 2;
-            draw();
-
-        }
         public void getMaxAndMin()
         {
             if (picture.Lines != null)
@@ -759,11 +406,6 @@ namespace graphics2
         {
             double calculateX = picture.Lines[0].first.x - tempPicture.Lines[0].first.x;
             double calculateY = picture.Lines[0].first.y - tempPicture.Lines[0].first.y;
-            //for (int i = 0; i < tempPicture.Points.Length; ++i)
-            //{
-            //    tempPicture.Points[i].x += calculateX;
-            //    tempPicture.Points[i].y += calculateY;
-            //}
             tempPicture = addValueToPictureJson(tempPicture, calculateX, calculateY);
             return tempPicture;
         }
@@ -1058,12 +700,14 @@ namespace graphics2
             if(pressed)
             {
                 if (action == 1)
+                {
                     move(centerPoint.x, centerPoint.y, e.Location.X, e.Location.Y);
+                    pressed = false;
+                }
                 if (action == 2)
                 {
                     rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Atan2(e.Location.Y - centerPoint.y, e.Location.X - centerPoint.x));
                 }
-                if (action == 3) { }
                 if (action == 5)
                     shearX(e.Location.X - MouseDownLocation.X);
                 if (action == 9)
@@ -1271,13 +915,13 @@ namespace graphics2
 
         public void myPoli(poligon p)
         {
-            int xc = (int)p.center.x;
-            int yc = (int)p.center.y;
-            int px = (int)p.radius.x;
-            int py = (int)p.radius.y;
+            double xc = p.center.x;
+            double yc = p.center.y;
+            double px = p.radius.x;
+            double py = p.radius.y;
             int n = p.polis;
-            
-            int lastx, lasty;
+
+            double lastx, lasty;
             double r = getRadius(xc, yc, px, py);
             double a = Math.Atan2(py - yc, px - xc);
 
@@ -1285,32 +929,32 @@ namespace graphics2
             {
                 lastx = px; lasty = py;
                 a = a + PI * 2 / n;
-                px = (int)Math.Round(xc + r * Math.Cos(a));
-                py = (int)Math.Round(yc + r * Math.Sin(a));
+                px = Math.Round(xc + r * Math.Cos(a));
+                py = Math.Round(yc + r * Math.Sin(a));
                 drawLine(new point(lastx, lasty), new point( px, py));
             }
         }
 
         public void DrawBazia(curve Curve)
         {
-            int px;
-            int py;
-            int px2;
-            int py2;
+            double px;
+            double py;
+            double px2;
+            double py2;
             double t; // t is 1.0/the number of wanted line, calculated in the mouseClick function
-            Point[] bazia = new Point[4];
-            bazia[0] = new Point((int)Curve.first.x,(int)Curve.first.y);
-            bazia[1] = new Point((int)Curve.second.x, (int)Curve.second.y);
-            bazia[2] = new Point((int)Curve.thired.x, (int)Curve.thired.y);
-            bazia[3] = new Point((int)Curve.fourth.x, (int)Curve.fourth.y);
-
-            for (t = 0.0; t <= 1.0; t += baziaFactor)
+            point[] bazia = new point[4];
+            bazia[0] = new point(Curve.first.x,Curve.first.y);
+            bazia[1] = new point(Curve.second.x, Curve.second.y);
+            bazia[2] = new point(Curve.thired.x, Curve.thired.y);
+            bazia[3] = new point(Curve.fourth.x, Curve.fourth.y);
+            
+            for (t = 0.0; t <= 1.0; t+= 0.001)
             {
-                px = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].X + 3 * t * (1 - t) * (1 - t) * bazia[1].X + 3 * t * t * (1 - t) * bazia[2].X + t * t * t * bazia[3].X);
-                py = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].Y + 3 * t * (1 - t) * (1 - t) * bazia[1].Y + 3 * t * t * (1 - t) * bazia[2].Y + t * t * t * bazia[3].Y);
+                px = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].x + 3 * t * (1 - t) * (1 - t) * bazia[1].x + 3 * t * t * (1 - t) * bazia[2].x + t * t * t * bazia[3].x);
+                py = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].y + 3 * t * (1 - t) * (1 - t) * bazia[1].y + 3 * t * t * (1 - t) * bazia[2].y + t * t * t * bazia[3].y);
                 t += baziaFactor; //incress t to get the second point
-                px2 = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].X + 3 * t * (1 - t) * (1 - t) * bazia[1].X + 3 * t * t * (1 - t) * bazia[2].X + t * t * t * bazia[3].X);
-                py2 = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].Y + 3 * t * (1 - t) * (1 - t) * bazia[1].Y + 3 * t * t * (1 - t) * bazia[2].Y + t * t * t * bazia[3].Y);
+                px2 = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].x + 3 * t * (1 - t) * (1 - t) * bazia[1].x + 3 * t * t * (1 - t) * bazia[2].x + t * t * t * bazia[3].x);
+                py2 = (int)((1 - t) * (1 - t) * (1 - t) * bazia[0].y + 3 * t * (1 - t) * (1 - t) * bazia[1].y + 3 * t * t * (1 - t) * bazia[2].y + t * t * t * bazia[3].y);
 
                 drawLine(new point(px, py),new point(px2, py2));
             }
@@ -1336,7 +980,7 @@ namespace graphics2
 
         private void button3_MouseClick(object sender, MouseEventArgs e)
         {
-            normalize();
+           // normalize();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
