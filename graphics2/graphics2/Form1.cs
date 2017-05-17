@@ -48,7 +48,22 @@ namespace graphics2
             drawFrame();
             //createTemp();
             OpenFile();
-            centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
+            if (picture.Lines != null)
+            {
+                centerPoint = new point(picture.Lines[0].first.x, picture.Lines[0].first.y);
+            }
+            else if (picture.Circles != null)
+            {
+                centerPoint = new point(picture.Circles[0].center);
+            }
+            else if (picture.Curves != null)
+            {
+                centerPoint = new point(picture.Curves[0].first.x, picture.Curves[0].first.y);
+            }
+            else if (picture.Poligon != null)
+            {
+                centerPoint = new point(picture.Poligon[0].center);
+            }
             radioButton1.Text = "Move";
             radioButton2.Text = "Rotate";
             radioButton3.Text = "Scale out";
