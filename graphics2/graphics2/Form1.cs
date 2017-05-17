@@ -892,7 +892,9 @@ namespace graphics2
 
         public void shearY(double disY)
         {
-            point refrence = centerPoint;
+            disY = disY / 1000;
+            point refrence = new point(centerPoint.x, centerPoint.y);
+            moveToZero(picture);
             centerPoint.x = centerPoint.x + centerPoint.y * disY;
             if (picture.Lines != null)
                 for (int i = 0; i < picture.Lines.Length; ++i)
@@ -919,39 +921,15 @@ namespace graphics2
                     picture.Poligon[i].center.y = picture.Poligon[i].center.y + picture.Poligon[i].center.x * disY;
                     picture.Poligon[i].radius.y = picture.Poligon[i].radius.y + picture.Poligon[i].radius.x * disY;
                 }
-            //centerPoint.x = centerPoint.x + centerPoint.y * disY;
-            //if (picture.Lines != null)
-            //    for (int i = 0; i < picture.Lines.Length; ++i)
-            //    {
-            //        picture.Lines[i].first.y = picture.Lines[i].first.y + picture.Lines[i].first.x * disY;
-            //        picture.Lines[i].second.y = picture.Lines[i].second.y + picture.Lines[i].second.x * disY;
-            //    }
-            //if (picture.Circles != null)
-            //    for (int i = 0; i < picture.Circles.Length; ++i)
-            //    {
-            //        picture.Circles[i].center.y = picture.Circles[i].center.y + picture.Circles[i].center.x * disY;
-            //    }
-            //if (picture.Curves != null)
-            //    for (int i = 0; i < picture.Curves.Length; ++i)
-            //    {
-            //        picture.Curves[i].first.y = picture.Curves[i].first.y + picture.Curves[i].first.x * disY;
-            //        picture.Curves[i].second.y = picture.Curves[i].second.y + picture.Curves[i].second.x * disY;
-            //        picture.Curves[i].thired.y = picture.Curves[i].thired.y + picture.Curves[i].thired.x * disY;
-            //        picture.Curves[i].fourth.y = picture.Curves[i].fourth.y + picture.Curves[i].fourth.x * disY;
-            //    }
-            //if (picture.Poligon != null)
-            //    for (int i = 0; i < picture.Poligon.Length; ++i)
-            //    {
-            //        picture.Poligon[i].center.y = picture.Poligon[i].center.y + picture.Poligon[i].center.x * disY;
-            //        picture.Poligon[i].radius.y = picture.Poligon[i].radius.y + picture.Poligon[i].radius.x * disY;
-            //    }
             move(centerPoint.x, centerPoint.y, refrence.x, refrence.y);
             draw();
         }
 
         public void shearX(double disX)
         {
-            point refrence = centerPoint;
+            disX = disX / 1000;
+            point refrence = new point(centerPoint.x,centerPoint.y);
+            moveToZero(picture);
             centerPoint.x = centerPoint.x + centerPoint.y * disX;
             // centerPoint.y = 0 - centerPoint.y;
             if (picture.Lines != null)
@@ -961,6 +939,7 @@ namespace graphics2
                     // picture.Lines[i].first.y = 0 - picture.Lines[i].first.y;
                     picture.Lines[i].second.x = picture.Lines[i].second.x + picture.Lines[i].second.y * disX;
                     // picture.Lines[i].second.y = 0 - picture.Lines[i].second.y;
+                    
                 }
             if (picture.Circles != null)
                 for (int i = 0; i < picture.Circles.Length; ++i)
