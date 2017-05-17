@@ -58,6 +58,7 @@ namespace graphics2
             radioButton7.Text = "Mirror X";
             radioButton8.Text = "Mirror Y";
             draw();
+            comboBox1.Text = "Choose color";
             comboBox1.Items.AddRange(new object[] {"Black",
                         "Green",
                         "Red",
@@ -1092,7 +1093,7 @@ namespace graphics2
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            string instructions = "Drage to Rotate";
+            string instructions = "Drage to Rotate, move slowly";
             if (radioButton2.AutoCheck)
             {
                 action = 2;
@@ -1355,6 +1356,18 @@ namespace graphics2
                 aBrush = (Brush)Brushes.Green;
             }
             draw();
+        }
+
+        private void comboBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex < 0)
+            {
+                comboBox1.Text = "Choose color";
+            }
+            else
+            {
+                comboBox1.Text = comboBox1.SelectedText;
+            }
         }
     }
 }
