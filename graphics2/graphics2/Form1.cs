@@ -161,10 +161,6 @@ namespace graphics2
         public void createTemp()
         {
             picture = new PictureJson(4, 2, 1, 0, 1);
-            //picture.Points[0] = new point(50, 50);
-            //picture.Points[1] = new point(70, 50);
-            //picture.Points[2] = new point(80, 90);
-            //picture.Points[3] = new point(30, 70);
             picture.Lines[0] = new line(new point(50, 50), new point(70, 50));
             picture.Lines[1] = new line(new point(80, 90), new point(30, 70));
             picture.Circles[0] = new circle(new graphics2.centerPoint(100, 100), 10);
@@ -1033,12 +1029,6 @@ namespace graphics2
 
         }
 
-        //private void button1_MouseDown(object sender,System.Windows.Forms.MouseEventArgs e)
-        //{
-        //    if(action == 1)
-        //         move(picture.Points[0].x, picture.Points[0].y, e.X, e.Y);
-        //}
-
         private void panel1_MouseDown_1(object sender, MouseEventArgs e)
         {
             if (e.Button == System.Windows.Forms.MouseButtons.Left)
@@ -1063,11 +1053,8 @@ namespace graphics2
                 if (action == 2)
                 {
                     rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Atan2(e.Location.Y - centerPoint.y, e.Location.X - centerPoint.x));
-                    // rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Acos((((MouseDownLocation.X * e.Location.X) + (MouseDownLocation.Y * e.Location.Y)) / (Math.Sqrt(Math.Pow(MouseDownLocation.X, 2) + Math.Pow(MouseDownLocation.Y, 2)) * Math.Sqrt(Math.Pow(e.Location.X, 2) + Math.Pow(e.Location.Y, 2))))));
                 }
-                //rotate(e.Location.X, e.Location.Y, 0, 0);
                 if (action == 3) { }
-                //scale(e.Location.X, e.Location.Y);
                 if (action == 5)
                     shearX(e.Location.X - MouseDownLocation.X);
                 if (action == 9)
@@ -1083,11 +1070,6 @@ namespace graphics2
                 if (action == 1) 
                  move(centerPoint.x, centerPoint.y, e.Location.X, e.Location.Y);
                 if (action == 2)
-               //     rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y, Math.Atan2(e.Location.Y- centerPoint.y, e.Location.X- centerPoint.x) * (180 / Math.PI));
-                   // rotate(e.Location.X, e.Location.Y, centerPoint.x, centerPoint.y);
-                
-                //if (action == 3)
-                //    scale(e.Location.X, e.Location.Y);
                 if (action == 6)
                     centerPoint = new point(e.Location.X, e.Location.Y);
                 if (action == 7)
@@ -1132,7 +1114,6 @@ namespace graphics2
             if (radioButton4.AutoCheck)
             {
                 action = 4;
-                //textBox1.Text = instructions;
             }
         }
 
@@ -1313,13 +1294,6 @@ namespace graphics2
             bazia[1] = new Point((int)Curve.second.x, (int)Curve.second.y);
             bazia[2] = new Point((int)Curve.thired.x, (int)Curve.thired.y);
             bazia[3] = new Point((int)Curve.fourth.x, (int)Curve.fourth.y);
-            //clean the bazia choise
-            //baziaButton = false;
-            //baziaPara = 0;
-            //textBox5.Clear();
-            //textBox4.Clear();
-            //textBox3.Clear();
-            //textBox2.Clear();
 
             for (t = 0.0; t <= 1.0; t += baziaFactor)
             {
