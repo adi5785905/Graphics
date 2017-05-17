@@ -109,6 +109,7 @@ namespace graphics2
 
         public void OpenFile()
         {
+            /*
             try
             {
                 string st = File.ReadAllText("JsonFile");
