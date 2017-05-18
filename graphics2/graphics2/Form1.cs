@@ -608,20 +608,20 @@ namespace graphics2
 
             //get max and min
             getMaxAndMin();
-            centerPoint = new point((minX + ((maxX - minX) / 2)), minY + ((maxY - minY) / 2));
+            centerPoint = new point((minX + ((maxX - Math.Abs(minX)) / 2)), minY + ((maxY - Math.Abs(minY)) / 2));
             point hold = new point(centerPoint.x,centerPoint.y);
             move(centerPoint.x, centerPoint.y, absCenter.x, absCenter.y);
-            if ((maxX - minX) > panel1.Width || (maxY - minY) > (panel1.Height))
+            if ((maxX - Math.Abs(minX)) > panel1.Width || (maxY - Math.Abs(minY)) > (panel1.Height))
             {
                 //scale down
-                while ((maxX - minX) > panel1.Width || (maxY - minY) > panel1.Height)
+                while ((maxX - Math.Abs(minX)) > panel1.Width-1 || (maxY - Math.Abs(minY)) > panel1.Height-1)
                 {
                   //  centerPoint = new point(hold.x, hold.y);
                     moveToZero(picture);
                     double scaleRatio = 0.8 * Math.Min(panel1.Width / maxX, panel1.Height / maxY);
                      //centerPoint.x *= scaleRatio;
                      //centerPoint.y *= scaleRatio;
-                    ///tempCenter.x *= scaleRatio;
+                    //tempCenter.x *= scaleRatio;
                     //tempCenter.y *= scaleRatio;
                     if (picture.Lines != null)
                     {
@@ -665,7 +665,8 @@ namespace graphics2
                     // centerPoint = new point((minX + ((maxX - minX) / 2)), minY + ((maxY - minY) / 2));
                 }
                 move(centerPoint.x, centerPoint.y, absCenter.x, absCenter.y);
-                centerPoint = new point(tempCenter.x + (absCenter.x - tempCenter.x ), tempCenter.y + (absCenter.y - tempCenter.y));
+                //  centerPoint = new point(tempCenter.x + (absCenter.x - tempCenter.x ), tempCenter.y + (absCenter.y - tempCenter.y));
+                centerPoint = new point(tempCenter.x, tempCenter.y);
             }
             else
             {
