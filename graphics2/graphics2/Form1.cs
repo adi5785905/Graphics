@@ -31,11 +31,11 @@ namespace graphics2
         public double baziaFactor = 0.00001;
         bool pressed = false;
         point centerPoint;
-        double maxX;
-        double maxY;
-        double minX;
-        double minY;
-        int[,] arr;
+        double maxX = double.MinValue;
+        double maxY = double.MinValue;
+        double minX = double.MaxValue;
+        double minY = double.MaxValue;
+        public point absCenter;
         public Form1()
         {
             InitializeComponent();
@@ -44,6 +44,7 @@ namespace graphics2
         protected override void OnLoad(EventArgs e)
         {
             this.Size = new Size(1100, 650);
+            absCenter = new point(panel1.Width / 2, panel1.Height / 2);
             base.OnLoad(e);
             drawFrame();
             //createTemp();
@@ -305,80 +306,6 @@ namespace graphics2
                 }
             return pic;
     }
-        public void getMaxAndMin()
-        {
-            if (picture.Lines != null)
-                for (int i = 0; i < picture.Lines.Length; ++i)
-                {
-                    isMaxorMin(picture.Lines[i].first.x, picture.Lines[i].first.y, i, 0);
-                    isMaxorMin(picture.Lines[i].second.x, picture.Lines[i].second.y, i, 0);
-                }
-            if (picture.Circles != null)
-                for (int i = 0; i < picture.Circles.Length; ++i)
-                {
-                    isMaxorMinWithRadius(picture.Circles[i].center.x, picture.Circles[i].center.y, picture.Circles[i].radius, i, 1);
-                }
-            if (picture.Curves != null)
-                for (int i = 0; i < picture.Curves.Length; ++i)
-                {
-                    isMaxorMin(picture.Curves[i].first.x, picture.Curves[i].first.y, i, 2);
-                    isMaxorMin(picture.Curves[i].second.x, picture.Curves[i].second.y, i, 2);
-                    isMaxorMin(picture.Curves[i].thired.x, picture.Curves[i].second.y, i, 2);
-                    isMaxorMin(picture.Curves[i].fourth.x, picture.Curves[i].second.y, i, 2);
-                }
-            if (picture.Poligon != null)
-                for (int i = 0; i < picture.Poligon.Length; ++i)
-                {
-                    isMaxorMinWithRadius(picture.Poligon[i].center.x, picture.Poligon[i].center.y, getRadius(picture.Poligon[i].center.x, picture.Poligon[i].center.y, picture.Poligon[i].radius.x, picture.Poligon[i].radius.y), i, 3);
-                }
-        }
-        private void isMaxorMin(double xValue, double yValue, int index , int arrLine)
-        {
-            if (xValue < minX)
-            {
-                minX = xValue;
-                arr[arrLine, 0] = index;
-            }
-            if (xValue > maxX)
-            {
-                maxX = xValue;
-                arr[arrLine, 1] = index;
-            }
-            if (yValue < minY)
-            {
-                minY = yValue;
-                arr[arrLine, 2] = index;
-            }
-            if (yValue > maxY)
-            {
-                maxY = yValue;
-                arr[arrLine, 3] = index;
-            }
-        }
-
-        private void isMaxorMinWithRadius(double xValue, double yValue, double rad, int index, int arrLine)
-        {
-            if (xValue-rad < minX)
-            {
-                minX = xValue - rad;
-                arr[arrLine, 0] = index;
-            }
-            if (xValue + rad > maxX)
-            {
-                maxX = xValue;
-                arr[arrLine, 1] = index;
-            }
-            if (yValue - rad < minY)
-            {
-                minY = yValue - rad;
-                arr[arrLine, 2] = index;
-            }
-            if (yValue + rad > maxY)
-            {
-                maxY = yValue;
-                arr[arrLine, 3] = index;
-            }
-        }
 
         public void move(double x1 , double y1, double x2, double y2)
         {
@@ -630,16 +557,16 @@ namespace graphics2
                 scaleRatio = 0.8;
             }
 
-            tranform = moveToZero(tranform);
+            picture = moveToZero(picture);
 
-            if (tranform.Lines != null)
+            if (picture.Lines != null)
             {
-                for (int i = 0; i < tranform.Lines.Length; ++i)
+                for (int i = 0; i < picture.Lines.Length; ++i)
                 {
-                    tranform.Lines[i].first.x = tranform.Lines[i].first.x * scaleRatio;
-                    tranform.Lines[i].second.x = tranform.Lines[i].second.x * scaleRatio;
-                    tranform.Lines[i].first.y = tranform.Lines[i].first.y * scaleRatio;
-                    tranform.Lines[i].second.y = tranform.Lines[i].second.y * scaleRatio;
+                    picture.Lines[i].first.x = picture.Lines[i].first.x * scaleRatio;
+                    picture.Lines[i].second.x = picture.Lines[i].second.x * scaleRatio;
+                    picture.Lines[i].first.y = picture.Lines[i].first.y * scaleRatio;
+                    picture.Lines[i].second.y = picture.Lines[i].second.y * scaleRatio;
                 }
             }
             if (picture.Circles != null)
@@ -675,6 +602,135 @@ namespace graphics2
             draw();
         }
 
+        public void Normalize()
+        {
+            point tempCenter = new point(centerPoint.x, centerPoint.y);
+
+            //get max and min
+            getMaxAndMin();
+            centerPoint = new point((minX + ((maxX - minX) / 2)), minY + ((maxY - minY) / 2));
+            point hold = new point(centerPoint.x,centerPoint.y);
+            move(centerPoint.x, centerPoint.y, absCenter.x, absCenter.y);
+            if ((maxX - minX) > panel1.Width || (maxY - minY) > (panel1.Height))
+            {
+                //scale down
+                while ((maxX - minX) > panel1.Width || (maxY - minY) > panel1.Height)
+                {
+                  //  centerPoint = new point(hold.x, hold.y);
+                    moveToZero(picture);
+                    double scaleRatio = 0.8 * Math.Min(panel1.Width / maxX, panel1.Height / maxY);
+                     //centerPoint.x *= scaleRatio;
+                     //centerPoint.y *= scaleRatio;
+                    ///tempCenter.x *= scaleRatio;
+                    //tempCenter.y *= scaleRatio;
+                    if (picture.Lines != null)
+                    {
+                        for (int i = 0; i < picture.Lines.Length; ++i)
+                        {
+                            picture.Lines[i].first.x = picture.Lines[i].first.x * scaleRatio;
+                            picture.Lines[i].second.x = picture.Lines[i].second.x * scaleRatio;
+                            picture.Lines[i].first.y = picture.Lines[i].first.y * scaleRatio;
+                            picture.Lines[i].second.y = picture.Lines[i].second.y * scaleRatio;
+                        }
+                    }
+                    if (picture.Circles != null)
+                        for (int i = 0; i < picture.Circles.Length; ++i)
+                        {
+                            picture.Circles[i].radius = picture.Circles[i].radius * scaleRatio;
+                            picture.Circles[i].center.x = picture.Circles[i].center.x * scaleRatio;
+                            picture.Circles[i].center.y = picture.Circles[i].center.y * scaleRatio;
+                        }
+                    if (picture.Curves != null)
+                        for (int i = 0; i < picture.Curves.Length; ++i)
+                        {
+                            picture.Curves[i].first.x = picture.Curves[i].first.x * scaleRatio;
+                            picture.Curves[i].first.y = picture.Curves[i].first.y * scaleRatio;
+                            picture.Curves[i].second.x = picture.Curves[i].second.x * scaleRatio;
+                            picture.Curves[i].second.y = picture.Curves[i].second.y * scaleRatio;
+                            picture.Curves[i].thired.x = picture.Curves[i].thired.x * scaleRatio;
+                            picture.Curves[i].thired.y = picture.Curves[i].thired.y * scaleRatio;
+                            picture.Curves[i].fourth.x = picture.Curves[i].fourth.x * scaleRatio;
+                            picture.Curves[i].fourth.y = picture.Curves[i].fourth.y * scaleRatio;
+                        }
+                    if (picture.Poligon != null)
+                        for (int i = 0; i < picture.Poligon.Length; ++i)
+                        {
+                            picture.Poligon[i].center.x = picture.Poligon[i].center.x * scaleRatio;
+                            picture.Poligon[i].center.y = picture.Poligon[i].center.y * scaleRatio;
+                            picture.Poligon[i].radius.x = picture.Poligon[i].radius.x * scaleRatio;
+                            picture.Poligon[i].radius.y = picture.Poligon[i].radius.y * scaleRatio;
+                        }
+                    move(centerPoint.x, centerPoint.y, absCenter.x, absCenter.y);
+                    getMaxAndMin();
+                    // centerPoint = new point((minX + ((maxX - minX) / 2)), minY + ((maxY - minY) / 2));
+                }
+                move(centerPoint.x, centerPoint.y, absCenter.x, absCenter.y);
+                centerPoint = new point(tempCenter.x + (absCenter.x - tempCenter.x ), tempCenter.y + (absCenter.y - tempCenter.y));
+            }
+            else
+            {
+               // move(centerPoint.x, centerPoint.y, panel1.Width / 2, panel1.Height / 2);
+               // centerPoint = new point(tempCenter.x + (panel1.Width / 2 - tempCenter.x), tempCenter.y + (panel1.Height / 2 - tempCenter.y));
+            }
+
+
+        }
+        private void getMaxAndMin()
+        {
+            maxX = double.MinValue;
+            maxY = double.MinValue;
+            minX = double.MaxValue;
+            minY = double.MaxValue;
+            if (picture.Lines != null)
+                foreach (line l in picture.Lines)
+                {
+                    if (l.first.x > maxX) maxX = l.first.x;
+                    if (l.second.x > maxX) maxX = l.second.x;
+                    if (l.first.y > maxY) maxY = l.first.y;
+                    if (l.second.y > maxY) maxY = l.second.y;
+                    if (l.first.x < minX) minX = l.first.x;
+                    if (l.second.x < minX) minX = l.second.x;
+                    if (l.first.y < minY) minY = l.first.y;
+                    if (l.second.y < minY) minY = l.second.y;
+                }
+            if (picture.Circles != null)
+                foreach (circle c in picture.Circles)
+                {
+                    if (c.center.x + c.radius > maxX) maxX = c.center.x + c.radius;
+                    if (c.center.y + c.radius > maxY) maxY = c.center.y + c.radius;
+                    if (c.center.x - c.radius < minX) minX = c.center.x - c.radius;
+                    if (c.center.y - c.radius < minY) minY = c.center.y - c.radius;
+                }
+            if (picture.Curves != null)
+                foreach (curve c in picture.Curves)
+                {
+                    if (c.first.x > maxX) maxX = c.first.x;
+                    if (c.second.x > maxX) maxX = c.second.x;
+                    if (c.thired.x > maxX) maxX = c.thired.x;
+                    if (c.fourth.x > maxX) maxX = c.fourth.x;
+                    if (c.first.y > maxY) maxY = c.first.y;
+                    if (c.second.y > maxY) maxY = c.second.y;
+                    if (c.thired.y > maxX) maxY = c.thired.y;
+                    if (c.fourth.y > maxX) maxY = c.fourth.y;
+                    if (c.first.x < minX) minX = c.first.x;
+                    if (c.second.x < minX) minX = c.second.x;
+                    if (c.thired.x < minX) minX = c.thired.x;
+                    if (c.fourth.x < minX) minX = c.fourth.x;
+                    if (c.first.y < minY) minY = c.first.y;
+                    if (c.second.y < minY) minY = c.second.y;
+                    if (c.thired.y < minY) minY = c.thired.y;
+                    if (c.fourth.y < minY) minY = c.fourth.y;
+                }
+            if (picture.Poligon != null)
+                foreach (poligon p in picture.Poligon)
+                {
+                    if (p.center.x + getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y) > maxX) maxX = p.center.x + getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y);
+                    if (p.center.y + getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y) > maxY) maxY = p.center.y + getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y);
+                    if (p.center.x - getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y) < minX) minX = p.center.x - getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y);
+                    if (p.center.y - getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y) < minY) minY = p.center.y - getRadius(p.center.x, p.center.y, p.radius.x, p.radius.y);
+                }
+        }
+
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -702,7 +758,6 @@ namespace graphics2
                 if (action == 1)
                 {
                     move(centerPoint.x, centerPoint.y, e.Location.X, e.Location.Y);
-                    pressed = false;
                 }
                 if (action == 2)
                 {
@@ -1019,6 +1074,11 @@ namespace graphics2
             {
                 comboBox1.Text = comboBox1.SelectedText;
             }
+        }
+
+        private void button3_MouseClick_1(object sender, MouseEventArgs e)
+        {
+            Normalize();
         }
     }
 }
