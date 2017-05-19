@@ -124,7 +124,7 @@ namespace graphics2
         public void draw()
         {
             clear();
-            // printPicture(background);
+            // printPicture(background); //
             drawFrame();
             printPicture(picture);
             printPicture(backgroundPicture);
