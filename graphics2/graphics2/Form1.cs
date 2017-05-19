@@ -1020,5 +1020,12 @@ namespace graphics2
                 comboBox1.Text = comboBox1.SelectedText;
             }
         }
+
+        //reload button
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFile();
+            draw();
+        }
     }
 }
