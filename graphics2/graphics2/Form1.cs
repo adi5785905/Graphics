@@ -19,6 +19,7 @@ namespace graphics2
     public partial class Form1 : Form
     {
         public PictureJson picture;
+        public PictureJson backgroundPicture;
         public PictureJson background;
         Brush aBrush = (Brush)Brushes.Black;
         Graphics g;
@@ -51,6 +52,7 @@ namespace graphics2
             base.OnLoad(e);
             drawFrame();
             OpenFile();
+            OpenBackGroundFile();
             //set defult centerPoint
             if (picture.Lines != null)
             {
@@ -125,6 +127,7 @@ namespace graphics2
             // printPicture(background);
             drawFrame();
             printPicture(picture);
+            printPicture(backgroundPicture);
         }
 
         public void OpenFile()
@@ -149,6 +152,28 @@ namespace graphics2
             }
         }
 
+
+        public void OpenBackGroundFile()
+        {
+            try
+            {   // Open the text file using a stream reader.
+                using (StreamReader sr = new StreamReader("backgroundJsonFile.json"))
+                {
+                    // Read the stream to a string, and write the string to the console.
+                    String line = sr.ReadToEnd();
+
+                    JToken root = JObject.Parse(line);
+                    JToken pictureJson = root["pictureJson"];
+                    backgroundPicture = JsonConvert.DeserializeObject<PictureJson>(pictureJson.ToString()); //creating PictureJson obj and setting it in the var
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("The picture file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+        }
+
         public JObject createPictureJson(PictureJson json)
         {
             JObject jsonObject = (JObject)JToken.FromObject(json);
@@ -161,7 +186,6 @@ namespace graphics2
             using (JsonTextWriter writer = new JsonTextWriter(file))
             {
                 json.WriteTo(writer);
-
             }
         }
 
@@ -1004,5 +1028,24 @@ namespace graphics2
             OpenFile();
             draw();
         }
+
+
+        //save picture to json file
+        private void button2_Click(object sender, EventArgs e)
+        {
+            JObject jsonObject = createPictureJson(picture);
+            saveJsonFile(jsonObject, "JsonFile");
+        }
     }
 }
+
+
+/*
+ *        public JObject createPictureJson(PictureJson json)
+        {
+            JObject jsonObject = (JObject)JToken.FromObject(json);
+            return jsonObject;
+        }
+
+        public void saveJsonFile(JObject json, string fileName)
+*/
