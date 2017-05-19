@@ -1,5 +1,5 @@
 ﻿///Graphics 2
-///Gabriel ___, Adi Gonen and Liron Sharabi
+///Gabriel Rosinski‎‏, Adi Gonen and Liron Sharabi
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -124,7 +124,6 @@ namespace graphics2
         public void draw()
         {
             clear();
-            // printPicture(background); //
             drawFrame();
             printPicture(picture);
             printPicture(backgroundPicture);
